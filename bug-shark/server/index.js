@@ -1,5 +1,3 @@
-// This is the Model and should only talk to the Controller
-
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -545,7 +543,7 @@ app.delete("/api/projects/:project_id/bugs/:bug_id/users/:user_id/notifications"
     }
 });
 
-// listen to calls made from the client side controller
+// listen to calls made from the client side
 app.listen(5000, () => {
     console.log("The database connection has started on port 5000");
 });
