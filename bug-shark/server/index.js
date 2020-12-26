@@ -1,7 +1,8 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const pool = require("./db")
+const pool = require("./db");
+const path = require("path");
 
 //////////////////////////////// MIDDLEWARE ////////////////////////////////
 
@@ -75,8 +76,8 @@ app.post("/api/users", async (req, res) => {
         if (usersWithSameEmail.rows.length === 0) {
             // adds the user to the DB
             await pool.query(
-                `INSERT INTO Users(user_id, email, first_name, last_name, gender) VALUES 
-                (${user_id}, $1, $2, $3, $4)`,
+                `INSERT INTO Users(user_id, has_profile_picture, email, first_name, last_name, gender) VALUES 
+                (${user_id}, FALSE, $1, $2, $3, $4)`,
                 [email, first_name, last_name, gender]
             );
             res.send("User Created");
@@ -228,6 +229,50 @@ app.post("/api/notifications", async (req, res) => {
         res.send("Notification Created");
     } catch (err) {
         console.log(err.message);
+    }
+});
+
+// get user ID
+app.get("/api/users/:email/user_id", async (req, res) => {
+    try {
+        const { email } = req.params;
+        const user = await pool.query(
+            `SELECT user_id 
+            FROM Users 
+            WHERE email = $1`,
+            [email]
+        );
+
+        res.json(user.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+// get user
+app.get("/api/users/:user_id", async (req, res) => {
+    try {
+        const { user_id } = req.params;
+        const user = await pool.query(
+            `SELECT * 
+            FROM Users 
+            WHERE user_id = $1`,
+            [user_id]
+        );
+
+        res.json(user.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+// get user profile picture
+app.get("/api/users/:user_id/profile_picture", async (req, res) => {
+    try {
+        const { user_id } = req.params;
+        res.sendFile(path.join(__dirname, "profile_pictures", `${user_id}.png`));
+    } catch (err) {
+        console.error(err.message);
     }
 });
 

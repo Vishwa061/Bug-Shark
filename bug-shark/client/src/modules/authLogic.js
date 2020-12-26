@@ -12,6 +12,9 @@ async function authLogic(user) {
             body: JSON.stringify(body)
         });
 
+        const res = await fetch(`http://localhost:5000/api/users/${user.email}/user_id`);
+        const resData = await res.json();
+        sessionStorage.setItem("user_id", resData[0].user_id);
     } catch (err) {
         console.log(err.message);
     }

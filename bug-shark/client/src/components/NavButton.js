@@ -1,9 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom"
 
 class NavButton extends React.Component {
     render() {
         return (
-            <button className="nav-button" onClick={this.props.onClick}>{this.props.text}</button>
+            <Link className="nav-button" to={this.props.to} >
+                {this.props.text}
+            </Link>
         );
     }
 }

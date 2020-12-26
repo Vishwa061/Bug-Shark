@@ -6,6 +6,7 @@ CREATE TABLE Users(
     email VARCHAR(256) UNIQUE NOT NULL,
     first_name VARCHAR(25) NOT NULL,
     last_name VARCHAR(25) NOT NULL,
+    has_profile_picture BOOLEAN NOT NULL,
     gender VARCHAR(12)
 );
 
