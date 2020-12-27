@@ -1,26 +1,11 @@
-import React, { useState, useEffect } from "react";
-import default_profile_picture from "../assets/images/default_profile_picture.png";
+import React from "react";
+import { useNavProfileLogic, useAuthLogic } from "./hooks"
+import { useAuth0 } from "@auth0/auth0-react";
 
 const NavProfile = () => {
-    useEffect(() => {
-        fetchProfile();
-    }, []);
-
-    const [profile, setProfile] = useState({});
-
-    const fetchProfile = async () => {
-        try {
-            const fetchProfile = await fetch(`http://localhost:5000/api/users/${sessionStorage.getItem("user_id")}`);
-            const profile = (await fetchProfile.json())[0];
-            setProfile(profile);
-        } catch (err) {
-            console.error(err.message);
-        }
-    }
-
-    const profile_picture = profile.has_profile_picture ?
-        `http://localhost:5000/api/users/${sessionStorage.getItem("user_id")}/profile_picture` :
-        default_profile_picture;
+    const { user } = useAuth0();
+    const user_id = useAuthLogic(user); // YOU NEED TO GET THE USER_ID TO APP.JS
+    const { profile, profile_picture } = useNavProfileLogic(user_id);
 
     return (
         <div id="profile">

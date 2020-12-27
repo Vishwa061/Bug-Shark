@@ -2,14 +2,10 @@ import React, { Fragment } from "react";
 import AuthButton from "../components/AuthButton";
 import NavButton from "./NavButton";
 import { useAuth0 } from "@auth0/auth0-react";
-import authLogic from "../modules/authLogic";
 import NavProfile from "./NavProfile";
 
 const NavBar = () => {
-    const { isAuthenticated, user } = useAuth0();
-    if (isAuthenticated) {
-        authLogic(user);
-    }
+    const { isAuthenticated } = useAuth0();
 
     return (
         <nav id="nav-bar">

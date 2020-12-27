@@ -66,7 +66,7 @@ app.post("/api/users", async (req, res) => {
 
         // finds all users with the same email
         const usersWithSameEmail = await pool.query(
-            `SELECT * 
+            `SELECT user_id 
             FROM Users 
             WHERE email = $1`,
             [email]
@@ -80,9 +80,10 @@ app.post("/api/users", async (req, res) => {
                 (${user_id}, FALSE, $1, $2, $3, $4)`,
                 [email, first_name, last_name, gender]
             );
-            res.send("User Created");
+
+            res.json({ user_id: user_id });
         } else {
-            res.send("User Already Exists");
+            res.json({ user_id: usersWithSameEmail.rows[0].user_id });
         }
     } catch (err) {
         console.error(err.message);
