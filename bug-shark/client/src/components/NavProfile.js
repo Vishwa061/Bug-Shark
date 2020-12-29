@@ -1,12 +1,8 @@
 import React from "react";
-import { useNavProfileLogic, useAuthLogic } from "./hooks"
-import { useAuth0 } from "@auth0/auth0-react";
+import { useNavProfileRequest } from "./hooks"
 
-const NavProfile = () => {
-    const { user } = useAuth0();
-    const user_id = useAuthLogic(user); // YOU NEED TO GET THE USER_ID TO APP.JS
-    const { profile, profile_picture } = useNavProfileLogic(user_id);
-
+const NavProfile = (props) => {
+    const { profile, profile_picture } = useNavProfileRequest(props.user_id);
     return (
         <div id="profile">
             <img src={profile_picture} alt="Profile" id="nav-profile-picture" />

@@ -4,8 +4,8 @@ import { Link } from "react-router-dom"
 class NavButton extends React.Component {
     render() {
         return (
-            <Link className="nav-button" to={this.props.to} >
-                {this.props.text}
+            <Link to={this.props.to} >
+                <button className="nav-button">{this.props.text}</button>
             </Link>
         );
     }

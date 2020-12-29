@@ -261,7 +261,7 @@ app.get("/api/users/:user_id", async (req, res) => {
             [user_id]
         );
 
-        res.json(user.rows);
+        res.json(user.rows[0]);
     } catch (err) {
         console.error(err.message);
     }

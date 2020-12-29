@@ -1,12 +1,45 @@
 * {
     font-family: Prompt;
-    box-sizing: border-box;
 }
- 
-#nav-bar, #footer {
+
+*, :after, :before {
+    box-sizing: inherit;
+}
+
+body,html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    height: 7vw;
+    background-color: #0D68A9;
+    color: white;
+    margin-top: 8vw
+}
+
+#author {
+    position: relative;
+    font-weight: 100;
+    text-align: end;
+    padding: 1vw;
+    padding-top: 4vw;
+}
+
+/* Navigation */
+
+#nav-bar {
+    position: relative;
     background-color: #0D68A9;
     width: 100%;
-    height: 20vh;
+    height: 10vw;
     text-align: center;
 }
 
@@ -14,10 +47,10 @@
     color: white;
     display: inline;
     position: relative;
-    top: 25%;
-    left: 5%;
-    font-size: 300%;
     float: left;
+    margin-top: 3vw;
+    margin-left: 5vw;
+    font-size: 300%;
 }
 
 .nav-button {
@@ -46,8 +79,31 @@
     text-decoration: none;
 }
 
+#profile {
+    position: relative;
+    float: right;
+    top: 3vh;
+    right: 3vw;
+    color: white;
+}
+
+#nav-profile-name {
+    font-weight: 100;
+    margin-block: 0;
+}
+
+#nav-profile-picture {
+    width: 5vw;
+    height: 5vw;
+    border-radius: 50%;
+}
+
+/* Landing Page */
+
 #landing-info {
     font-style: italic;
+    top: 1vw;
+    position: relative;
 }
 
 .landing {
@@ -73,55 +129,128 @@
     -webkit-transform: rotate(45deg);
 }
 
-#footer{
-    text-align: right;
-    padding-right: 1vw;
-    padding-top: 14vh;
-    color: white;
+/* Home Page */
+
+#home {
+    display: block;
 }
 
-#author {
-    font-weight: 100;
+#home-content {
+    display: inline-block;
+    margin-top: 5vw;
 }
 
-#profile {
+#home-filters {
+    display: block;
+    float: left;
+}
+
+#today-title {
     position: relative;
-    float: right;
-    top: 3vh;
-    right: 3vw;
+    margin-top: 2vw;
+    margin-left: 5vw;
+    font-size: 4vw;
+}
+
+#home-search {
+    background-color: #083c61;
+    position: relative;
+    margin-left: 5vw;
+    padding: 1vw;
+    border-radius: 1vw;
+}
+
+#home-search-input {
+    position: relative;
+    background-color: #083c61;
+    border: none;
+    text-decoration: none;
+    color: white;
+    width: 16vw;
+    margin-left: 2vw;
+    font-size: 1.5vw;
+}
+
+input:focus {
+    outline: none;
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+#search-icon {
+    position: relative;
+    width: 2vw;
+    height: 2vw;
+}
+
+#refine-search-panel {
+    position: relative;
+    width: 22vw;
+    height: 12vw;
+    margin-left: 5vw;
+    margin-top: 2vw;
+}
+
+#refine-search-panel-top {
+    position: relative;
+    background-color: #083c61;
+    border-top-left-radius: 2vw;
+    border-top-right-radius: 2vw;
+    height: 5vw;
     color: white;
 }
 
-#nav-profile-name {
-    font-weight: 100;
-    margin-block: 0;
+#refine-search-panel-title {
+    position: relative;
+    font-size: 2vw;
+    padding: 1vw;
+    text-align: center;
 }
 
-#nav-profile-picture {
-    width: 5vw;
-    height: 5vw;
-    border-radius: 50%;
+#refine-search-panel-bot {
+    position: relative;
+    background-color: #0D68A9;
+    border-bottom-left-radius: 2vw;
+    border-bottom-right-radius: 2vw;
+    height: 7vw;
+}
+
+#home-bugs-container {
+    position: relative;
+    width: 60vw;
+    float: right;
+    margin-left: 5vw;
+}
+
+#home-bugs-titles-1, #home-bugs-titles-2, #home-bugs-titles-3 {
+    position: relative;
+    text-align: center;
+    background-color: #0D68A9;
+    color: white;
+    text-align: center;
+    padding-top: 1vw;
+    padding-bottom: 0.5vw;
+    font-size: 2vw;
+    margin-bottom: 2vw;
+}
+
+#home-bugs-titles-2, #home-bugs-titles-3 {
+    margin-left: 2vw;
 }
 
 #home-bugs {
     position: relative;
-    width: max-content;
-    text-align: left;
-    float: right;
-    right: 10vw;
-}
-
-#home-bugs-titles {
     background-color: #0D68A9;
+    text-align: center;
     color: white;
-    padding-left: 5vw;
-    padding-right: 5vw;
+    padding-top: 0.5vw;
+    margin-bottom: 1vw;
 }
 
-#today-title {
-    top: 5vh;
-    left: 5%;
-    font-size: 300%;
-    width: max-content;
-    position: relative;
+#no-bugs-msg {
+    margin-left: 1vw; 
+    margin-top: 1vw;
+    font-size: 2.3vw;
 }

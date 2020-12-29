@@ -4,14 +4,14 @@ import NavButton from "./NavButton";
 import { useAuth0 } from "@auth0/auth0-react";
 import NavProfile from "./NavProfile";
 
-const NavBar = () => {
+const NavBar = (props) => {
     const { isAuthenticated } = useAuth0();
 
     return (
         <nav id="nav-bar">
             <h1 id="title">Bug Shark</h1>
             {isAuthenticated &&
-                <NavProfile />
+                <NavProfile user_id={props.user_id} />
             }
             <AuthButton />
             {isAuthenticated &&
