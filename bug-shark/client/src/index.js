@@ -5,6 +5,8 @@ import Auth0ProviderWithHistory from "./auth/Auth0ProviderWithHistory";
 import { BrowserRouter as Router } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/style.css";
+import "./styles/home.css";
+import "./styles/landing.css";
 
 ReactDOM.render(
     <Router>

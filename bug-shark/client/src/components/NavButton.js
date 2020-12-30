@@ -5,7 +5,7 @@ class NavButton extends React.Component {
     render() {
         return (
             <Link to={this.props.to} >
-                <button className="nav-button">{this.props.text}</button>
+                <button id="nav-button">{this.props.text}</button>
             </Link>
         );
     }

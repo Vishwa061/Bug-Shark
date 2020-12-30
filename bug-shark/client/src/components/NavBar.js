@@ -13,14 +13,16 @@ const NavBar = (props) => {
             {isAuthenticated &&
                 <NavProfile user_id={props.user_id} />
             }
-            <AuthButton />
-            {isAuthenticated &&
-                <Fragment>
-                    <NavButton text="Account" to="/account" />
-                    <NavButton text="Projects" to="/projects" />
-                    <NavButton text="Home" to="/home" />
-                </Fragment>
-            }
+            <div id="nav-button-container">
+                <AuthButton />
+                {isAuthenticated &&
+                    <Fragment>
+                        <NavButton text="Account" to="/account" />
+                        <NavButton text="Projects" to="/projects" />
+                        <NavButton text="Home" to="/home" />
+                    </Fragment>
+                }
+            </div>
         </nav>
     );
 }

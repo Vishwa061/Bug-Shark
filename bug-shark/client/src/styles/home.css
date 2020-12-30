@@ -1,0 +1,171 @@
+/* Home Page */
+
+#home {
+    display: block;
+}
+
+#home-content {
+    display: inline-block;
+    margin-top: 5vw;
+    margin-left: 5vw;
+}
+
+#home-filters {
+    display: block;
+    float: left;
+}
+
+#today-title {
+    position: relative;
+    margin-top: 2vw;
+    margin-left: 5vw;
+    font-size: 4vw;
+}
+
+/* Project Filter */
+
+#home-search {
+    position: relative;
+    display: inline-block;
+    background-color: #083c61;
+    padding: 1vw;
+    border-radius: 1vw;
+    width: 22vw;
+}
+
+#search-icon {
+    position: relative;
+    float: left;
+    width: 2vw;
+    height: 2vw;
+}
+
+#home-search-input {
+    position: relative;
+    float: left;
+    background-color: #083c61;
+    border: none;
+    text-decoration: none;
+    color: white;
+    width: 16vw;
+    margin-left: 2vw;
+    font-size: 1.5vw;
+}
+
+input:focus {
+    outline: none;
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* Severity Filter */
+
+#refine-search-panel {
+    position: relative;
+    width: 24vw;
+    height: 11vw;
+    margin-top: 1.6vw;
+    color: white;
+}
+
+#refine-search-panel-top {
+    position: relative;
+    background-color: #083c61;
+    border-top-left-radius: 2vw;
+    border-top-right-radius: 2vw;
+    height: 4vw;
+}
+
+#refine-search-panel-top-title {
+    position: relative;
+    font-size: 2vw;
+    padding: 1vw;
+    text-align: center;
+}
+
+#refine-search-panel-bot {
+    position: relative;
+    background-color: #0D68A9;
+    border-bottom-left-radius: 2vw;
+    border-bottom-right-radius: 2vw;
+    height: 7vw;
+    padding-top: 1vw;
+}
+
+#refine-search-panel-bot-title {
+    position: relative;
+    font-size: 1.9vw;
+    padding-left: 2.9vw;
+    text-align: left;
+}
+
+#refine-search-panel-checkbox {
+    position: relative;
+    display: inline-block;
+    padding-left: 1.5vw;
+}
+
+#refine-search-panel-checkbox-title {
+    position: relative;
+    float: left;
+    font-size: 1vw;
+    margin-left: 0.4vw;
+    margin-top: 1.5vw;
+}
+
+#refine-search-panel-checkbox-box {
+    position: relative;
+    float: left;
+    margin-top: 1.5vw;
+    width: 1vw;
+    height: 1vw;
+}
+
+/* Today's Bugs */
+
+#home-bugs-container {
+    position: relative;
+    width: 60vw;
+    float: right;
+    margin-left: 3vw;
+}
+
+#home-bugs-cols-titles-1, #home-bugs-cols-titles-2, #home-bugs-cols-titles-3 {
+    position: relative;
+    text-align: center;
+    background-color: #0D68A9;
+    color: white;
+    margin-bottom: 2vw;
+}
+
+#home-bugs-cols-titles-2, #home-bugs-cols-titles-3 {
+    margin-left: 2vw;
+}
+
+#home-bugs-titles {
+    text-align: center;
+    padding-top: 1vw;
+    padding-bottom: 0.5vw;
+    font-size: 2vw;
+}
+
+#home-bugs-rows {
+    position: relative;
+    background-color: #0D68A9;
+    color: white;
+    margin-bottom: 1vw;
+}
+
+#home-bugs {
+    text-align: center;
+    padding-top: 0.5vw;
+    font-size: 1.8vw;
+}
+
+#no-bugs-msg {
+    margin-left: 1vw; 
+    margin-top: 1vw;
+    font-size: 2.3vw;
+}

@@ -7,19 +7,18 @@ import Arrow from "../components/Arrow"
 class Landing extends React.Component {
     render() {
         return (
-            <div className="landing">
-                <h3 id="landing-info">
-                    Bug Shark - "A bug tracking system software developers can use to prioritize work and divide workloads"
-                </h3>
-                <br />
-                <h2>Create/join a project</h2>
-                <img src={create_project} alt="Create/join a project" id="landing-img1" />
+            <div id="landing">
+                <p id="landing-info">
+                    A bug tracking system software developers can use to prioritize work and divide workloads
+                </p>
+                <h2 id="landing-img-info">Create/join a project</h2>
+                <img src={create_project} alt="Create/join a project" id="landing-img" />
                 <Arrow />
-                <h2>Submit a bug report</h2>
-                <img src={report_bug} alt="Submit a bug report" id="landing-img2" />
+                <h2 id="landing-img-info">Submit a bug report</h2>
+                <img src={report_bug} alt="Submit a bug report" id="landing-img" />
                 <Arrow />
-                <h2>Keep track of progress made on the bug</h2>
-                <img src={track_bug} alt="Keep track of the bug" id="landing-img3" />
+                <h2 id="landing-img-info">Keep track of progress made on the bug</h2>
+                <img src={track_bug} alt="Keep track of the bug" id="landing-img" />
             </div>
         );
     }
