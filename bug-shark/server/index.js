@@ -103,7 +103,7 @@ app.post("/api/projects", async (req, res) => {
             [project_name]
         );
 
-        res.send("Project Created");
+        res.json({ project_id: project_id });
     } catch (err) {
         console.error(err.message);
     }
@@ -178,15 +178,26 @@ app.post("/api/logs", async (req, res) => {
 // create invite
 app.post("/api/invites", async (req, res) => {
     try {
-        const { user_id, project_id, invite_type } = req.body;
-        const sameInvites = await pool.query(
-            `SELECT * 
-            FROM Invited 
-            WHERE user_id = $1 AND project_id = $2`,
+        const { email, project_id, invite_type } = req.body;
+
+        const user = await pool.query(
+            `SELECT user_id 
+            FROM Users 
+            WHERE email = $1`,
+            [email]
+        );
+
+        const user_id = user.rows[0].user_id;
+
+        const dups = await pool.query(
+            `SELECT I.user_id 
+            FROM Invited I, Participant P 
+            WHERE (I.user_id = $1 AND I.project_id = $2) 
+                OR (P.user_id = $1 AND P.project_id = $2)`,
             [user_id, project_id]
         );
 
-        if (sameInvites.rows.length === 0) {
+        if (dups.rows.length === 0) { // avoids dup invites/participants
             await pool.query(
                 `INSERT INTO Invited(user_id, project_id, invite_type) VALUES 
                 ($1, $2, $3)`,
@@ -194,7 +205,7 @@ app.post("/api/invites", async (req, res) => {
             );
             res.send("Invite Created");
         } else {
-            res.send("Invite Already Exists");
+            res.send("Invite Already Exists or User Is Already Apart of Project");
         }
     } catch (err) {
         console.log(err.message);
@@ -322,6 +333,24 @@ app.get("/api/projects/:project_id/participants", async (req, res) => {
 
 });
 
+// get a specific invite
+app.get("/api/projects/:project_id/users/:user_id/invites", async (req, res) => {
+    try {
+        const { project_id, user_id } = req.params;
+
+        const invite = await pool.query(
+            `SELECT invite_type 
+            FROM Invited 
+            WHERE project_id = $1 AND user_id = $2`,
+            [project_id, user_id]
+        );
+
+        res.json(invite.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
 // get a specific bug
 app.get("/api/projects/:project_id/bugs/:bug_id", async (req, res) => {
     try {
@@ -337,6 +366,25 @@ app.get("/api/projects/:project_id/bugs/:bug_id", async (req, res) => {
     } catch (err) {
         console.error(err.message);
     }
+});
+
+// get todays active bugs for a specific user
+app.get("/api/users/:user_id/bugs-active", async (req, res) => {
+    try {
+        const { user_id } = req.params;
+        const bugs = await pool.query(
+            `SELECT project_name, severity, B.bug_id  
+            FROM Participant PA, Project PR, Bug B 
+            WHERE PA.user_id = $1 AND PA.project_id = PR.project_id AND PR.project_id = B.project_id 
+                AND bug_status < 2 AND reported >= CURRENT_DATE`,
+            [user_id]
+        );
+
+        res.json(bugs.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+
 });
 
 // get all active bugs for a specific project

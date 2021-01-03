@@ -1,0 +1,164 @@
+/* Projects Page */
+
+#projects {
+    display: block;
+}
+
+#projects-content-1 {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-top: 3vw;
+}
+
+#projects-content-2 {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-top: 5vw;
+}
+
+#projects-content-3 {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-top: 5vw;
+    text-align: center;
+}
+
+/* Project Filter */
+
+#projects-search {
+    position: relative;
+    display: inline-block;
+    background-color: #083c61;
+    padding: 1vw;
+    border-radius: 1vw;
+    width: 18vw;
+    margin-left: 5vw;
+}
+
+#projects-search-input {
+    position: relative;
+    float: left;
+    background-color: #083c61;
+    border: none;
+    text-decoration: none;
+    color: white;
+    width: 12vw;
+    margin-left: 2vw;
+    font-size: 1.5vw;
+}
+
+/* Create/join Project Button */
+
+#create-join {
+    position: relative;
+    display: inline-block;
+    margin-right: 8.6vw;
+}
+
+#create-join-wrapper {
+    position: relative;
+    float: right;
+}
+
+#projects-btn-container {
+    position: relative;
+    float: right;
+    margin-left: 2vw;
+}
+
+/* Number of Projects */
+
+#projects-content-2-num-projects {
+    position: relative;
+    color: rgba(0, 0, 0, 0.8);
+    float: left;
+    font-size: 1.8vw;
+    margin-left: 5vw;
+}
+
+/* Project Display Options */
+
+#projects-content-2-options {
+    position: relative;
+    display: inline-block;
+    margin-right: 8.6vw;
+}
+
+#projects-content-2-options-wrapper {
+    position: relative;
+    float: right;
+}
+
+#project-sort-dropdown {
+    float: left;
+}
+
+/* Project Item */
+
+#project-item {
+    position: relative;
+    width: max-content;
+    text-align: center;
+    margin-bottom: 5vw;
+    margin-right: 5vw;
+    float: left;
+}
+
+#project-list {
+    position: relative;
+    display: inline-block;
+    margin-left: 5vw;
+    margin-right: 8.6vw;
+    padding-left: 6vw; /* LEFT SIDE */
+    padding-right: 6vw; /* RIGHT SIDE */
+    margin-top: 2vw;
+}
+
+#project-item-name {
+    position: relative;
+    margin-bottom: 0;
+    padding: 1.3vw;
+    font-size: 2vw;
+    font-weight: 600;
+}
+
+#project-item-name-wrapper {
+    position: relative;
+    background-color: #083c61;
+    color: white;
+    border-top-left-radius: 2vw;
+    border-top-right-radius: 2vw;
+}
+
+#project-item-info {
+    position: relative;
+    margin-bottom: 0;
+    padding: 1.3vw;
+    padding-bottom: 0;
+    font-size: 2vw;
+}
+
+#project-item-info-wrapper {
+    position: relative;
+    background-color: #0D68A9;
+    color: white;
+    border-bottom-left-radius: 2vw;
+    border-bottom-right-radius: 2vw;
+    padding-bottom: 3vw;
+}
+
+/* Create/Join Project Modal */
+
+#project-modal-input {
+    position: relative;
+    float: right;
+    font-size: 3vw;
+    width: 22vw;
+}
+
+#project-modal-input::placeholder {
+    color: rgba(0, 0, 0, 0.4);
+}

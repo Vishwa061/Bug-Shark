@@ -4,7 +4,7 @@ import TodaysActiveBugsList from "../components/TodaysActiveBugsList";
 import Search from "../components/Search";
 import RefineSearchPanel from "../components/RefineSearchPanel";
 
-const Home = (props) => {
+const Home = ({ user_id }) => {
     const [project_name, setProject_name] = useState("");
     const onSearch = (project_name) => {
         setProject_name(project_name);
@@ -23,12 +23,19 @@ const Home = (props) => {
         });
     }
 
+    const [numBugs, setNumBugs] = useState(0);
+    const changeNumBugs = (numBugs) => {
+        setNumBugs(numBugs);
+    }
+
+    const areBugsToday = numBugs !== 0;
+
     return (
         <div id="home" >
-            <h1 id="today-title">Today's Bugs</h1>
+            <h1 id="today-title">Today's Bugs {areBugsToday && `(${numBugs})`}</h1>
             <div id="home-content">
                 <div id="home-filters">
-                    <Search id="home-search" onSearch={onSearch} />
+                    <Search id="home-search" onSearch={onSearch} input_id="home-search-input" />
                     <RefineSearchPanel onCheck={onCheck} />
                 </div>
                 <Container id="home-bugs-container">
@@ -44,9 +51,10 @@ const Home = (props) => {
                         </Col>
                     </Row>
                     <TodaysActiveBugsList
-                        user_id={props.user_id}
+                        user_id={user_id}
                         project_name={project_name}
                         isChecked={isChecked}
+                        changeNumBugs={changeNumBugs}
                     />
                 </Container>
             </div>

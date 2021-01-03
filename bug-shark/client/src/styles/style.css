@@ -8,6 +8,7 @@
 
 body, html {
     height: 100%;
+    overflow-x: hidden;
 }
 
 body {
@@ -31,7 +32,7 @@ body {
     height: 7vw;
     background-color: #0D68A9;
     color: white;
-    margin-top: 8vw
+    margin-top: 8vw;
 }
 
 #author {
@@ -41,6 +42,12 @@ body {
     padding: 1vw;
     padding-top: 4vw;
     font-size: 1.3vw;
+}
+
+button, a {
+    border-style: none;
+    border: none;
+    text-decoration: none;
 }
 
 /* Navigation */
@@ -65,7 +72,6 @@ body {
     font-size: 1.8vw;
     position: relative;
     border-radius: 10%;
-    border-style: none;
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
     text-align: center;
@@ -74,9 +80,7 @@ body {
     padding-top: 0.4vw;
     padding-bottom: 0.4vw;
     float: right;
-    border: none;
     margin-left: 2vw;
-    text-decoration: none;
 }
 
 #nav-button:hover {
@@ -105,4 +109,5 @@ body {
     width: 5vw;
     height: 5vw;
     border-radius: 50%;
+    object-fit: cover;
 }

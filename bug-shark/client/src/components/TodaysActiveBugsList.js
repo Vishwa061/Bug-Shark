@@ -1,23 +1,48 @@
-import React, { Fragment, useEffect } from "react";
-import { Row } from "reactstrap";
-import getTodaysActiveBugsList from "../modules/getTodaysActiveBugsList";
-import { useTodaysActiveBugsRequest } from "./hooks";
+import React, { Fragment, useEffect, useState } from "react";
+import { Row, Col } from "reactstrap";
+import filterTodaysActiveBugs from "../modules/filterTodaysActiveBugs";
+import getTodaysActiveBugs from "../modules/getTodaysActiveBugs";
 
-const TodaysActiveBugsList = ({ user_id, project_name, isChecked }) => {
+const TodaysActiveBugsList = ({ user_id, project_name, isChecked, changeNumBugs }) => {
+    const [todaysActiveBugs, setTodaysActiveBugs] = useState([]);
+    const [todaysActiveBugsList, setTodaysActiveBugsList] = useState([]);
+    const [numBugs, setNumBugs] = useState(0);
+    const [numFilteredBugs, setNumFilteredBugs] = useState(0);
+
     useEffect(() => {
-        // console.log(props.project_name);
-        // console.log(props.isChecked);
-    }, [project_name, isChecked]);
+        getTodaysActiveBugs(user_id)
+            .then((todaysActiveBugs) => {
+                setTodaysActiveBugs(todaysActiveBugs);
+                setNumBugs(todaysActiveBugs.length);
+            });
 
-    const todaysActiveBugs = useTodaysActiveBugsRequest(user_id);
-    const { todaysActiveBugsList, numBugs } = getTodaysActiveBugsList(todaysActiveBugs, project_name, isChecked);
+    }, [user_id]);
+
+    useEffect(() => {
+        const filteredBugs = filterTodaysActiveBugs(todaysActiveBugs, project_name, isChecked);
+        const todaysActiveBugsList = filteredBugs.map(bug => {
+            return (
+                <Row key={bug.bug_id} id="home-bugs-rows">
+                    <Col><h4 id="home-bugs">{bug.project_name}</h4></Col>
+                    <Col><h4 id="home-bugs">{bug.severity}</h4></Col>
+                    <Col><h4 id="home-bugs">{bug.bug_id}</h4></Col>
+                </Row>
+            );
+        });
+
+        setTodaysActiveBugsList(todaysActiveBugsList);
+        setNumFilteredBugs(filteredBugs.length);
+    }, [todaysActiveBugs, project_name, isChecked]);
+
+    useEffect(() => {
+        changeNumBugs(numBugs);
+    }, [changeNumBugs, numBugs]);
 
     const noBugsToday = numBugs === 0;
-    const noBugsAfterFilter = todaysActiveBugsList.length === 0;
-    const noNameFilter = project_name === "";
-    const noBugsMsg = (noNameFilter || noBugsToday) ?
-        "No new bugs today . . ." : // only if theres no bugs today
-        "No matching results . . ."; // only if there are bugs but theyve been filtered out
+    const noBugsAfterFilter = numFilteredBugs === 0;
+    const noBugsMsg = noBugsToday ?
+        "No new bugs today . . ." : // only if there's no bugs today
+        "No matching results . . ."; // only if there are bugs but they've been filtered out
 
     return (
         <Fragment>

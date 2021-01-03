@@ -7,6 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/style.css";
 import "./styles/home.css";
 import "./styles/landing.css";
+import "./styles/projects.css";
 
 ReactDOM.render(
     <Router>
