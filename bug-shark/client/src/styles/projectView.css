@@ -1,0 +1,214 @@
+/* Project View Page */
+
+#project-view {
+    position: relative;
+    margin-left: 3vw;
+    margin-top: 3vw;
+}
+
+#project-view-content {
+    position: relative;
+    display: inline-block;
+}
+
+#project-view-content-1 {
+    position: relative;
+    float: left;
+}
+
+#project-view-content-2 {
+    position: relative;
+    float: left;
+    margin-left: 10vw;
+    text-align: right;
+    margin-top: 2vw;
+}
+
+#project-view-content-3 {
+    position: relative;
+    float: left;
+    margin-left: 8vw;
+    text-align: right;
+    margin-top: 2vw;
+}
+
+#project-name-settings-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* Project Name */
+
+#project-view-name {
+    position: relative;
+    font-size: 3vw;
+    float: left;
+    background-color: #0D68A9;
+    color: white;
+    padding: 1vw;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    text-align: center;
+    width: 24vw;
+}
+
+/* Settings Button */
+
+#settings-btn {
+    position: relative;
+    width: 4vw;
+    height: 4vw;
+    float: right;
+    margin-top: 0.8vw;
+    margin-left: 1vw;
+}
+
+/* Participants Button */
+
+#participants-btn {
+    position: relative;
+    margin-left: 3vw;
+    padding-left: 3vw;
+    padding-right: 3vw;
+}
+
+/* Num Bugs */
+
+#project-view-num-bugs {
+    position: relative;
+    font-size: 2.2vw;
+    margin-top: 4vw;
+    color: rgba(0, 0, 0, 0.8);
+}
+
+/* Invite Button */
+
+#project-view-invite-btn {
+    position: relative;
+}
+
+/* Search Dropdown */
+
+#project-view-search-dropdown {
+    position: relative;
+    margin-top: 2vw;
+}
+
+/* Search */
+
+#project-view-search-wrapper {
+    position: relative;
+    margin-top: 1vw;
+}
+
+#project-view-search {
+    position: relative;
+    display: inline-block;
+    background-color: #083c61;
+    padding: 1vw;
+    border-radius: 1vw;
+    width: 20vw;
+}
+
+#project-view-search-input {
+    position: relative;
+    float: left;
+    background-color: #083c61;
+    border: none;
+    text-decoration: none;
+    color: white;
+    width: 14vw;
+    margin-left: 2vw;
+    font-size: 1.5vw;
+}
+
+/* Report Bug Button */
+
+#project-view-report-btn {
+    position: relative;
+}
+
+/* Sort Dropdown */
+
+#project-view-sort-dropdown {
+    position: relative;
+    margin-top: 2vw;
+}
+
+/* Open/Closed Bugs Button */
+
+#project-view-active-closed-btn {
+    position: relative;
+    margin-top: 1vw;
+    float: right;
+}
+
+/* Bug List */
+
+#project-view-bugs {
+    position: relative;
+    width: max-content;
+}
+
+#project-view-bug-rows {
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.25);
+    padding: 1vw;
+    padding-top: 0.5vw;
+    padding-bottom: 0.5vw;
+    font-size: 1.3vw;
+    text-align: center;
+    margin-bottom: 0.8vw;
+    width: max-content;
+}
+
+#project-view-bug-rows:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+}
+
+#project-view-bug-cols {
+    position: relative;
+    color: rgba(0, 0, 0, 0.8);
+    width: 16vw;
+}
+
+/* Invite Participant Modal */
+
+#invite-participant-modal-input {
+    position: relative;
+    float: right;
+    font-size: 3vw;
+    width: 22vw;
+}
+
+#invite-participant-modal-input::placeholder {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+#invite-participant-modal-dropdown {
+    position: relative;
+    top: 1vw;
+    margin-bottom: 2vw;
+}
+
+/* Report Bug Modal */
+
+#report-bug-modal-textarea {
+    position: relative;
+    width: 24vw;
+    height: 15vw;
+    outline: none;
+    padding: 2vw;
+    font-size: 1.6vw;
+}
+
+#report-bug-modal-textarea::placeholder {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+#report-bug-modal-dropdown {
+    position: relative;
+    top: 1vw;
+    margin-bottom: 2vw;
+}

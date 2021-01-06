@@ -27,13 +27,11 @@ const Projects = ({ user_id }) => {
     const [sortMethod, setSortMethod] = useState("Name");
     const changeSortMethod = (option) => {
         setSortMethod(option);
-        console.log(option);
     }
 
     const [viewType, setViewType] = useState("gallery");
     const changeViewType = (type) => {
         setViewType(type);
-        console.log(type);
     }
 
     const [showCreate, setShowCreate] = useState(false);
@@ -70,7 +68,12 @@ const Projects = ({ user_id }) => {
                 />
             }
             <div id="projects-content-1">
-                <Search id="projects-search" onSearch={onSearch} input_id="projects-search-input" />
+                <Search
+                    id="projects-search"
+                    onSearch={onSearch}
+                    input_id="projects-search-input"
+                    placeholder="Search Project..."
+                />
                 <div id="create-join-wrapper">
                     <div id="create-join">
                         <Button
@@ -118,8 +121,6 @@ const Projects = ({ user_id }) => {
                     changeNumProjects={changeNumProjects}
                     viewType={viewType}
                 />
-                {/* projects in gallery view */}
-                {/* projects in list view */}
             </div>
         </div>
     );

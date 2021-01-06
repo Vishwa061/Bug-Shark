@@ -10,6 +10,9 @@ import Footer from "./components/Footer";
 import { useAuthLogic } from "./components/hooks";
 import ProjectView from "./views/ProjectView";
 import PageNotFound from "./views/PageNotFound";
+import ProjectSettings from "./views/ProjectSettings";
+import Bug from "./views/Bug";
+import ProjectParticipants from "./views/ProjectParticipants";
 
 const App = () => {
   const { isLoading, user } = useAuth0();
@@ -28,6 +31,9 @@ const App = () => {
         <Route exact path="/projects" render={() => <Projects user_id={user_id} />} />
         <Route exact path="/account" component={Account} />
         <Route exact path="/projects/:project_id" children={<ProjectView user_id={user_id} />} />
+        <Route exact path="/projects/:project_id/settings" children={<ProjectSettings user_id={user_id} />} />
+        <Route exact path="/projects/:project_id/bugs/:bug_id" children={<Bug user_id={user_id} />} />
+        <Route exact path="/projects/:project_id/participants" children={<ProjectParticipants user_id={user_id} />} />
         <Route component={PageNotFound} />
       </Switch>
       <Footer />

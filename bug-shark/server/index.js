@@ -187,6 +187,12 @@ app.post("/api/invites", async (req, res) => {
             [email]
         );
 
+        if (user.rowCount === 0) {
+            // console.log("User does not have a Bug Shark account")
+            res.send("User does not have a Bug Shark account");
+            return;
+        }
+
         const user_id = user.rows[0].user_id;
 
         const dups = await pool.query(
@@ -333,7 +339,27 @@ app.get("/api/projects/:project_id/participants", async (req, res) => {
 
 });
 
-// get a specific invite
+// get project
+app.get("/api/projects/:project_id", async (req, res) => {
+    try {
+        const { project_id } = req.params;
+        const project = await pool.query(
+            `SELECT project_name, PA1.participant_type, 
+                (SELECT COUNT(*) 
+                FROM Participant PA2 
+                WHERE PR.project_id = PA2.project_id) AS num_participants 
+            FROM Project PR, Participant PA1 
+            WHERE PR.project_id = $1 AND PR.project_id = PA1.project_id`,
+            [project_id]
+        );
+
+        res.json(project.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+// get invite
 app.get("/api/projects/:project_id/users/:user_id/invites", async (req, res) => {
     try {
         const { project_id, user_id } = req.params;
@@ -351,7 +377,7 @@ app.get("/api/projects/:project_id/users/:user_id/invites", async (req, res) => 
     }
 });
 
-// get a specific bug
+// get bug
 app.get("/api/projects/:project_id/bugs/:bug_id", async (req, res) => {
     try {
         const { project_id, bug_id } = req.params;

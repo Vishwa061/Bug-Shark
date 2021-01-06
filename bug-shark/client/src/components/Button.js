@@ -12,12 +12,13 @@ const Button = ({ id, buttonText, buttonID, icon, onClick }) => {
         position: "relative",
         display: "inline-block",
         backgroundColor: "#083c61",
-        border: "none",
         textAlign: "center",
         borderStyle: "none",
         padding: "1vw",
         color: "white",
-        borderRadius: "1vw"
+        borderRadius: "1vw",
+        border: "none",
+        outline: "none"
     };
 
     const iconStyle = {

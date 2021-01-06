@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "./Button";
-import close_button from "../assets/icons/close_button.png";
+import close_icon from "../assets/icons/close_icon.png";
 
 const Modal = ({ children, title, submitBtnCallback, submitBtnText, exitCallback }) => {
     const modalContainerStyle = {
@@ -11,7 +11,8 @@ const Modal = ({ children, title, submitBtnCallback, submitBtnText, exitCallback
         left: 0,
         zIndex: 10000,
         backdropFilter: "blur(7px)",
-        backgroundColor: "rgba(0, 0, 0, 0.2)"
+        backgroundColor: "rgba(0, 0, 0, 0.2)",
+        overflowY: "scroll"
     }
 
     const modalStyle = {
@@ -70,7 +71,7 @@ const Modal = ({ children, title, submitBtnCallback, submitBtnText, exitCallback
                 <h1 style={titleStyle}>
                     {title}
                     <img
-                        src={close_button}
+                        src={close_icon}
                         alt=""
                         style={closeBtnStyle}
                         onClick={exitCallback}

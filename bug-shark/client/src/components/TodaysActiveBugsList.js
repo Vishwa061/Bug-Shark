@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Row, Col } from "reactstrap";
-import filterTodaysActiveBugs from "../modules/filterTodaysActiveBugs";
+import filterTodaysActiveBugs from "../utils/filterTodaysActiveBugs";
 import getTodaysActiveBugs from "../modules/getTodaysActiveBugs";
 
 const TodaysActiveBugsList = ({ user_id, project_name, isChecked, changeNumBugs }) => {

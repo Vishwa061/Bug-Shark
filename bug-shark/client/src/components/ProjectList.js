@@ -1,12 +1,13 @@
-import filterProjects from "../modules/filterProjects";
+import filterProjects from "../utils/filterProjects";
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import getProjects from "../modules/getProjects";
-import getCompareFunction from "../modules/getCompareFunction";
-import getViewStyle from "../modules/getViewStyle";
+import getCompareFunction from "../utils/getCompareFunction";
+import getViewStyle from "../utils/getViewStyle";
 
 const ProjectList = ({ user_id, reload, filterProjectName, changeNumProjects, sortMethod, viewType }) => {
     const [projects, setProjects] = useState([]);
+    const [filteredProjects, setFilteredProjects] = useState([]);
     const [projectList, setProjectList] = useState([]);
     const [numProjects, setNumProjects] = useState({
         total: 0,
@@ -29,8 +30,19 @@ const ProjectList = ({ user_id, reload, filterProjectName, changeNumProjects, so
 
     useEffect(() => {
         const filteredProjects = filterProjects(projects, filterProjectName);
-        filteredProjects.sort(getCompareFunction(sortMethod));
+
+        setFilteredProjects(filteredProjects);
+        setNumProjects(prevState => {
+            return {
+                ...prevState,
+                filteredTotal: filteredProjects.length
+            }
+        });
+    }, [projects, filterProjectName]);
+
+    useEffect(() => {
         const { l1Style, l2Style, l3Style, l4Style, l5Style } = getViewStyle(viewType);
+        filteredProjects.sort(getCompareFunction(sortMethod));
         const projectList = filteredProjects.map(project => {
             return (
                 <div id="project-item" key={project.project_id} style={l1Style}>
@@ -52,13 +64,7 @@ const ProjectList = ({ user_id, reload, filterProjectName, changeNumProjects, so
         });
 
         setProjectList(projectList);
-        setNumProjects(prevState => {
-            return {
-                ...prevState,
-                filteredTotal: filteredProjects.length
-            }
-        });
-    }, [projects, filterProjectName, sortMethod, viewType]);
+    }, [filteredProjects, viewType, sortMethod]);
 
     useEffect(() => {
         changeNumProjects(numProjects);

@@ -66,7 +66,26 @@ const useNavProfileRequest = (user_id) => {
     };
 }
 
+const useProjectRequest = (project_id) => {
+    const [project, setProject] = useState({});
+
+    useEffect(() => {
+        getProject(project_id);
+    }, [project_id]);
+
+    const getProject = async (project_id) => {
+        const fetchedProject = await fetch(`http://localhost:5000/api/projects/${project_id}`);
+        const project = await fetchedProject.json();
+
+        setProject(project);
+    }
+
+    return project;
+}
+
+
 export {
     useAuthLogic,
-    useNavProfileRequest
+    useNavProfileRequest,
+    useProjectRequest
 };

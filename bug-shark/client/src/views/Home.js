@@ -35,7 +35,12 @@ const Home = ({ user_id }) => {
             <h1 id="today-title">Today's Bugs {areBugsToday && `(${numBugs})`}</h1>
             <div id="home-content">
                 <div id="home-filters">
-                    <Search id="home-search" onSearch={onSearch} input_id="home-search-input" />
+                    <Search
+                        id="home-search"
+                        onSearch={onSearch}
+                        input_id="home-search-input"
+                        placeholder="Search Project..."
+                    />
                     <RefineSearchPanel onCheck={onCheck} />
                 </div>
                 <Container id="home-bugs-container">
