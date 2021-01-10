@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "reactstrap";
 import getBugs from "../modules/getBugs";
-import { filterBugs, parseBugStatus, parseReportedDate } from "../utils/filterBugs";
+import filterBugs from "../utils/filterBugs";
+import { parseBugStatus, parseReportedDate } from "../utils/parseFunctions"
 import getCompareFunction from "../utils/getCompareFunction";
 import { Link } from "react-router-dom";
 
-const BugList = ({ project_id, bugType, filter, sortMethod, setNumTotalBugs, setNumFilteredBugs, reloadBugList }) => {
+const BugList = ({ project_name, project_id, bugType, filter, sortMethod, setNumTotalBugs, setNumFilteredBugs, reloadBugList, participant_type }) => {
     const [bugs, setBugs] = useState([]);
     const [filteredBugs, setFilteredBugs] = useState([]);
     const [bugList, setBugList] = useState([]);
@@ -30,7 +31,14 @@ const BugList = ({ project_id, bugType, filter, sortMethod, setNumTotalBugs, set
         filteredBugs.sort(getCompareFunction(sortMethod));
         const bugList = filteredBugs.map(bug => {
             return (
-                <Link to={`/projects/${project_id}/bugs/${bug.bug_id}`} key={bug.bug_id}>
+                <Link
+                    key={bug.bug_id}
+                    to={{
+                        pathname: `/projects/${project_id}/bugs/${bug.bug_id}`,
+                        project_name: project_name,
+                        participant_type: participant_type
+                    }}
+                >
                     <Row id="project-view-bug-rows">
                         <Col id="project-view-bug-cols">
                             {bug.bug_id}
@@ -53,7 +61,7 @@ const BugList = ({ project_id, bugType, filter, sortMethod, setNumTotalBugs, set
         });
         setBugList(bugList);
 
-    }, [project_id, filteredBugs, sortMethod]);
+    }, [project_id, filteredBugs, sortMethod, project_name, participant_type]);
 
     const bugContainerStyle = {
         position: "relative",

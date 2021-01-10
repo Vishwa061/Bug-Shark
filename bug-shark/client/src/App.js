@@ -32,7 +32,7 @@ const App = () => {
         <Route exact path="/account" component={Account} />
         <Route exact path="/projects/:project_id" children={<ProjectView user_id={user_id} />} />
         <Route exact path="/projects/:project_id/settings" children={<ProjectSettings user_id={user_id} />} />
-        <Route exact path="/projects/:project_id/bugs/:bug_id" children={<Bug user_id={user_id} />} />
+        <Route exact path="/projects/:project_id/bugs/:bug_id" children={props => <Bug props={props} user_id={user_id} />} />
         <Route exact path="/projects/:project_id/participants" children={<ProjectParticipants user_id={user_id} />} />
         <Route component={PageNotFound} />
       </Switch>

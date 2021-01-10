@@ -9,6 +9,7 @@ import "./styles/home.css";
 import "./styles/landing.css";
 import "./styles/projects.css";
 import "./styles/projectView.css";
+import "./styles/bug.css";
 
 ReactDOM.render(
     <Router>

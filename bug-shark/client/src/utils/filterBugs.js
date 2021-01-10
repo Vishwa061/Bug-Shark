@@ -1,26 +1,5 @@
-const parseReportedDate = (sqlDate) => { // from standard sql date format to yyyy-mm-dd
-    try {
-        return new Date(sqlDate).toLocaleDateString("en-CA");
-    }
-    catch (err) {
-        console.error(err.message);
-    }
-}
 
-const parseBugStatus = (status) => {
-    switch (status) {
-        case 0:
-            return "OPEN";
-        case 1:
-            return "IN PROGRESS";
-        case 2:
-            return "CLOSED";
-        default: {
-            console.error("INVALID BUG STATUS:", status);
-            return "";
-        }
-    }
-}
+import { parseBugStatus, parseReportedDate } from "./parseFunctions"
 
 const filterBySearchOption = (bug, { searchOption, searchInput }) => {
     switch (searchOption) {
@@ -51,8 +30,4 @@ const filterBugs = (bugs, filter) => {
     );
 }
 
-export {
-    filterBugs,
-    parseBugStatus,
-    parseReportedDate
-};
+export default filterBugs;

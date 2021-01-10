@@ -1,12 +1,12 @@
-const inviteParticipant = async (email, project_id, invite_type) => {
+const assignDeveloper = async (email, project_id, bug_id) => {
     try {
         const body = {
             email: email.toLowerCase(),
             project_id: project_id,
-            invite_type: invite_type
+            bug_id: bug_id
         }
 
-        await fetch(`http://localhost:5000/api/invites`, {
+        await fetch("http://localhost:5000/api/assignments", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
@@ -17,4 +17,4 @@ const inviteParticipant = async (email, project_id, invite_type) => {
     }
 }
 
-export default inviteParticipant;
+export default assignDeveloper;

@@ -1,19 +1,4 @@
-const parseSeverity = (severity) => {
-    switch (severity) {
-        case "LOW":
-            return 0;
-        case "MINOR":
-            return 1;
-        case "MAJOR":
-            return 2;
-        case "CRITICAL":
-            return 3;
-        default: {
-            console.error("INVALID SEVERITY");
-            return -1;
-        }
-    }
-}
+import { parseSeverity } from "./parseFunctions";
 
 const getCompareFunction = (sortMethod) => {
     switch (sortMethod) {

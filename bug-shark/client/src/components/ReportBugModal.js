@@ -52,7 +52,7 @@ const ReportBugModal = ({ user_id, project_id, submitBtnCallback, exitCallback }
                     <DropDown
                         text=""
                         defaultOption="LOW"
-                        options={["LOW", "MINOR", "MAJOR", "CRTICAL"]}
+                        options={["LOW", "MINOR", "MAJOR", "CRITICAL"]}
                         callback={severity => setSeverity(severity)}
                     />
                 </div>

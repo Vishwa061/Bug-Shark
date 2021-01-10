@@ -16,8 +16,8 @@ const useAuthLogic = (user) => {
         try {
             const body = {
                 email: user.email,
-                first_name: user.given_name,
-                last_name: user.family_name
+                first_name: user.given_name || user.email,
+                last_name: user.family_name || ""
             };
 
             const fetchUser = await fetch("http://localhost:5000/api/users", {
@@ -74,15 +74,18 @@ const useProjectRequest = (project_id) => {
     }, [project_id]);
 
     const getProject = async (project_id) => {
-        const fetchedProject = await fetch(`http://localhost:5000/api/projects/${project_id}`);
-        const project = await fetchedProject.json();
+        try {
+            const fetchedProject = await fetch(`http://localhost:5000/api/projects/${project_id}`);
+            const project = await fetchedProject.json();
 
-        setProject(project);
+            setProject(project);
+        } catch (err) {
+            console.error(err.message);
+        }
     }
 
     return project;
 }
-
 
 export {
     useAuthLogic,

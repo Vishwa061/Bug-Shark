@@ -32,6 +32,7 @@ CREATE TABLE Bug(
         FOREIGN KEY (reporter_id) REFERENCES Users (user_id),
     CONSTRAINT bug_fk_project_id
         FOREIGN KEY (project_id) REFERENCES Project
+        ON DELETE CASCADE
 );
 
 CREATE TABLE Assigned(
@@ -43,7 +44,8 @@ CREATE TABLE Assigned(
     CONSTRAINT assigned_fk_user_id
         FOREIGN KEY (user_id) REFERENCES Users,
     CONSTRAINT assigned_fk_bug_id
-        FOREIGN KEY (project_id, bug_id) REFERENCES Bug
+        FOREIGN KEY (bug_id, project_id) REFERENCES Bug
+        ON DELETE CASCADE
 );
 
 CREATE TABLE Notified(
@@ -55,7 +57,8 @@ CREATE TABLE Notified(
     CONSTRAINT notified_fk_user_id
         FOREIGN KEY (user_id) REFERENCES Users,
     CONSTRAINT notified_fk_bug_id
-        FOREIGN KEY (project_id, bug_id) REFERENCES Bug
+        FOREIGN KEY (bug_id, project_id) REFERENCES Bug
+        ON DELETE CASCADE
 );
 
 CREATE TABLE Participant(
@@ -68,6 +71,7 @@ CREATE TABLE Participant(
         FOREIGN KEY (user_id) REFERENCES Users,
     CONSTRAINT participant_fk_project_id
         FOREIGN KEY (project_id) REFERENCES Project
+        ON DELETE CASCADE
 );
 
 CREATE TABLE Invited(
@@ -80,6 +84,7 @@ CREATE TABLE Invited(
         FOREIGN KEY (user_id) REFERENCES Users,
     CONSTRAINT invited_fk_project_id
         FOREIGN KEY (project_id) REFERENCES Project
+        ON DELETE CASCADE
 );
 
 CREATE TABLE Log(
@@ -90,6 +95,7 @@ CREATE TABLE Log(
     logged TIMESTAMP NOT NULL,
     CONSTRAINT log_pk
         PRIMARY KEY (log_id, bug_id, project_id),
-    CONSTRAINT log_fk_project_id
+    CONSTRAINT log_fk_bug_id
         FOREIGN KEY (bug_id, project_id) REFERENCES Bug
+        ON DELETE CASCADE
 );

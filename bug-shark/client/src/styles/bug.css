@@ -1,0 +1,477 @@
+/* Bug Page */
+
+#bug {
+    position: relative;
+    margin-top: 3vw;
+    margin-left: 5vw;
+    margin-right: 8vw;
+    width: 87vw;
+}
+
+#bug-content-1 {
+    position: relative;
+    display: inline-block;
+    width: inherit;
+}
+
+#bug-content-1-right-btns {
+    position: relative;
+    float: right;
+    text-align: right;
+}
+
+#bug-main-content {
+    position: relative;
+    display: inline-block;
+    width: inherit;
+}
+
+#bug-content-2 {
+    position: relative;
+    float: left;
+    margin-left: 10vw;
+}
+
+#bug-content-3 {
+    position: relative;
+    float: left;
+    margin-left: 2vw; 
+}
+
+/* Back Button */
+
+#back-button {
+    position: relative;
+    background-color: #083c61;
+    width: 5vw;
+    height: 5vw;
+    border-radius: 1vw;
+    padding: 1vw;
+    padding-top: 0;
+    padding-bottom: 0;
+    float: left;
+}
+
+/* Project Name */
+
+#bug-project-name {
+    position: relative;
+    float: left;
+    background-color: #0D68A9;
+    color: white;
+    margin-left: 3vw;
+    padding: 1vw;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    font-size: 3vw;
+    width: 18vw;
+    text-align: center;
+}
+
+/* Bug ID */
+
+#bug-bug-id {
+    position: relative;
+    float: left;
+    background-color: #0D68A9;
+    color: white;
+    margin-left: 3vw;
+    margin-top: 1vw;
+    padding: 1vw;
+    font-size: 2vw;
+    text-align: center;
+}
+
+/* Delete Bug Button */
+
+#delete-bug-btn {
+    position: relative;
+    background-color: #083c61;
+    color: white;
+    padding: 0.5vw;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    text-align: center;
+    border-radius: 1vw;
+    font-size: 1.5vw;
+    outline: none;
+}
+
+#delete-bug-btn-wrapper {
+    position: relative;
+}
+
+/* Toggle Notifications Button */
+
+#toggle-notifications-btn {
+    position: relative;
+    display: block;
+    background-color: #083c61;
+    color: white;
+    padding: 0.5vw;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    text-align: center;
+    border-radius: 1vw;
+    font-size: 1.5vw;
+    margin-top: 1vw;
+    outline: none;
+}
+
+/* Severity */
+
+#bug-content-severity {
+    position: relative;
+}
+
+#bug-severity-title {
+    position: relative;
+    display: inline-block;
+    background-color: #0D68A9;
+    color: white;
+    margin-top: 1vw;
+    padding: 1vw;
+    font-size: 2vw;
+    text-align: center;
+    width: 10vw;
+}
+
+#bug-severity-text {
+    position: relative;
+    display: inline-block;
+    color: rgba(0, 0, 0, 0.8);
+    margin-top: 1vw;
+    padding: 1vw;
+    font-size: 1.8vw;
+    text-align: center;
+}
+
+/* Status */
+
+#bug-content-status {
+    position: relative;
+}
+
+#bug-status-title {
+    position: relative;
+    display: inline-block;
+    background-color: #0D68A9;
+    color: white;
+    margin-top: 1vw;
+    padding: 1vw;
+    font-size: 2vw;
+    text-align: center;
+    width: 10vw;
+}
+
+#bug-status-text {
+    position: relative;
+    display: inline-block;
+    color: rgba(0, 0, 0, 0.8);
+    margin-top: 1vw;
+    padding: 1vw;
+    font-size: 1.5vw;
+    text-align: center;
+}
+
+/* Date Reported */
+
+#bug-content-reported {
+    position: relative;
+}
+
+#bug-reported-title {
+    position: relative;
+    float: left;
+    background-color: #0D68A9;
+    color: white;
+    margin-top: 1vw;
+    padding: 1vw;
+    padding-top: 2vw;
+    padding-bottom: 2vw;
+    font-size: 2vw;
+    text-align: center;
+    width: 10vw;
+}
+
+#bug-reported-text {
+    position: relative;
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 1.8vw;
+    text-align: left;
+    margin-bottom: 0;
+}
+
+#bug-reported-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+#bug-reported-text-wrapper {
+    position: relative;
+    float: left;
+    margin-top: 1vw;
+    margin-left: 1vw;
+}
+
+/* Reporter */
+
+#bug-content-reporter {
+    position: relative;
+}
+
+#bug-reporter-title {
+    position: relative;
+    display: inline-block;
+    background-color: #0D68A9;
+    color: white;
+    margin-top: 1vw;
+    padding: 1vw;
+    font-size: 2vw;
+    text-align: center;
+    width: 10vw;
+}
+
+#bug-reporter-text {
+    position: relative;
+    display: inline-block;
+    color: rgba(0, 0, 0, 0.8);
+    margin-top: 1vw;
+    padding: 1vw;
+    font-size: 1.8vw;
+    text-align: left;
+    width: 13vw;
+    text-overflow: ellipsis;
+}
+
+/* Error */
+
+#bug-content-error {
+    position: relative;
+    margin-top: 1vw;
+}
+
+#bug-error-title {
+    position: relative;
+    display: inline-block;
+    background-color: #0D68A9;
+    color: white;
+    margin-top: 1vw;
+    padding: 1vw;
+    font-size: 2vw;
+    text-align: center;
+    width: 18vw;
+}
+
+#bug-error-text {
+    position: relative;
+    color: rgba(0, 0, 0, 0.8);
+    margin-top: 1vw;
+    font-size: 1.5vw;
+    text-align: left;
+    width: 24vw;
+    white-space: pre-wrap;
+}
+
+/* Reproduce */
+
+#bug-content-reproduce {
+    position: relative;
+}
+
+#bug-reproduce-title {
+    position: relative;
+    display: inline-block;
+    background-color: #0D68A9;
+    color: white;
+    margin-top: 1vw;
+    padding: 1vw;
+    font-size: 2vw;
+    text-align: center;
+    width: 21vw;
+}
+
+#bug-reproduce-text {
+    position: relative;
+    color: rgba(0, 0, 0, 0.8);
+    margin-top: 1vw;
+    font-size: 1.5vw;
+    text-align: left;
+    width: 24vw;
+    white-space: pre-wrap;
+}
+
+/* Workaround */
+
+#bug-content-workaround {
+    position: relative;
+}
+
+#bug-workaround-title {
+    position: relative;
+    display: inline-block;
+    background-color: #0D68A9;
+    color: white;
+    margin-top: 1vw;
+    padding: 1vw;
+    font-size: 2vw;
+    text-align: center;
+    width: 13vw;
+}
+
+#bug-workaround-text {
+    position: relative;
+    color: rgba(0, 0, 0, 0.8);
+    margin-top: 1vw;
+    font-size: 1.5vw;
+    text-align: left;
+    width: 24vw;
+    white-space: pre-wrap;
+}
+
+/* Log List */
+
+#log-list-title {
+    position: relative;
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 3vw;
+    font-weight: 700;
+    margin-top: 1vw;
+}
+
+#log {
+    position: relative;
+    white-space: pre-wrap;
+    font-size: 1.6vw;
+    padding: 1vw;
+    width: inherit;
+    margin-bottom: 0;
+}
+
+#log-list {
+    position: relative;
+    width: 45vw;
+    height: 28vw;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-right: 3vw;
+}
+
+/* Edit Buttons */
+
+#edit-bug-2 {
+    margin-left: 1vw
+}
+
+[id*="edit-bug"] {
+    position: relative;
+    margin-bottom: 0.5vw;
+}
+
+[id*="edit-bug"]:hover {
+    cursor: pointer;
+}
+
+/* Developer List */
+
+#dev-list-title {
+    position: relative;
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 2vw;
+    font-weight: 700;
+    float: left;
+}
+
+#edit-bug-devs {
+    position: relative;
+    float: left;
+    margin-left: 1vw;
+    top: 0.25vw;
+}
+
+#add-dev-icon {
+    position: relative;
+    float: left;
+    margin-left: 1vw;
+    background-color: #083c61;
+    padding: 0.5vw;
+    width: 1.5vw;
+    height: 1.5vw;
+    border-radius: 0.5vw;
+}
+
+#add-dev-icon:hover {
+    cursor: pointer;
+}
+
+#dev-list {
+    position: relative;
+    height: 15vw;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#dev-list-col-1 {
+    position: relative;
+    font-size: 1.8vw;
+    width: 17vw;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+    padding: 0;
+}
+
+#dev-list-col-2 {
+    position: relative;
+    font-size: 1.5vw;
+    width: 25vw;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+/* Solution */
+
+#bug-content-solution {
+    position: relative;
+    margin-top: 2vw;
+}
+
+#bug-solution-title {
+    position: relative;
+    display: inline-block;
+    background-color: #0D68A9;
+    color: white;
+    margin-top: 1vw;
+    padding: 1vw;
+    font-size: 2vw;
+    text-align: center;
+    width: 13vw;
+}
+
+#bug-solution-text {
+    position: relative;
+    color: rgba(0, 0, 0, 0.8);
+    margin-top: 1vw;
+    font-size: 1.5vw;
+    text-align: left;
+    width: 24vw;
+    white-space: pre-wrap;
+}
+
+/* Assign/Remove Developers Modal */
+
+#devs-modal-input {
+    position: relative;
+    float: right;
+    font-size: 3vw;
+    width: 22vw;
+    bottom: 0.25vw;
+    margin-left: 1vw;
+}
+
+#devs-modal-input::placeholder {
+    color: rgba(0, 0, 0, 0.4);
+}

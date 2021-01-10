@@ -63,6 +63,14 @@
     margin-left: 1vw;
 }
 
+/* Project ID */
+
+#project-view-project-id{
+    position: relative;
+    text-align: left;
+    font-size: 2vw;
+}
+
 /* Participants Button */
 
 #participants-btn {

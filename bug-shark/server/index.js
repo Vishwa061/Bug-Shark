@@ -1,8 +1,18 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
 const pool = require("./db");
 const path = require("path");
+
+const nodemailer = require("nodemailer");
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: process.env.EMAIL_ADDRESS,
+        pass: process.env.EMAIL_PASSWORD
+    }
+});
 
 //////////////////////////////// MIDDLEWARE ////////////////////////////////
 
@@ -54,6 +64,28 @@ async function generateID(type) {
         console.error(err.message);
         return null;
     }
+}
+
+// send notifications to subscribed users
+function sendNotifications(emails, subject, text) {
+    let stringifiedEmails = "";
+    emails.forEach(email => {
+        stringifiedEmails += `, ${email.email}`
+    });
+    stringifiedEmails = stringifiedEmails.substring(2);
+
+    const mailOptions = {
+        from: process.env.EMAIL_ADDRESS,
+        to: stringifiedEmails,
+        subject: subject,
+        text: text
+    }
+
+    transporter.sendMail(mailOptions, err => {
+        if (err) {
+            console.error("EMAIL ERROR", mailOptions);
+        }
+    });
 }
 
 //////////////////////////////// REST API ROUTES ////////////////////////////////
@@ -131,6 +163,12 @@ app.post("/api/participants", async (req, res) => {
                 [user_id, project_id, participant_type]
             );
 
+            await pool.query(
+                `DELETE FROM Invited 
+                WHERE project_id = $1 AND user_id = $2`,
+                [project_id, user_id]
+            );
+
             res.send("Participant Created");
         } else {
             res.send("Participant Already Exists");
@@ -146,13 +184,14 @@ app.post("/api/bugs", async (req, res) => {
         const { project_id, severity, error, user_id, reproduce } = req.body;
         const bug_id = (await generateID("bug")); // must await since generateID() is async so it returns a promise
         const STATUS_OPEN = 0;
-        await pool.query(
+        const bug = await pool.query(
             `INSERT INTO Bug(bug_id, bug_status, reported, project_id, severity, error, reporter_id, reproduce) VALUES 
-            (${bug_id}, ${STATUS_OPEN}, to_timestamp(${Date.now()} / 1000.0), $1, $2, $3, $4, $5)`,
+            (${bug_id}, ${STATUS_OPEN}, to_timestamp(${Date.now()} / 1000.0), $1, $2, $3, $4, $5) 
+            RETURNING *`,
             [project_id, severity, error, user_id, reproduce]
         );
 
-        res.send("Bug Created");
+        res.json(bug.rows[0].bug_id);
     } catch (err) {
         console.error(err.message);
     }
@@ -161,17 +200,49 @@ app.post("/api/bugs", async (req, res) => {
 // create log
 app.post("/api/logs", async (req, res) => {
     try {
-        const { bug_id, project_id, change } = req.body;
+        const { user_id, bug_id, project_id, change } = req.body;
         const log_id = (await generateID("log")); // must await since generateID() is async so it returns a promise
+
+        const user = await pool.query(
+            `SELECT first_name || ' ' || last_name AS fullname 
+            FROM Users 
+            WHERE user_id = $1`,
+            [user_id]
+        );
+
+        const fullname = user.rows[0].fullname;
+
         await pool.query(
             `INSERT INTO Log(log_id, logged, bug_id, project_id, change) VALUES 
             (${log_id}, to_timestamp(${Date.now()} / 1000.0), $1, $2, $3)`,
-            [bug_id, project_id, change]
+            [bug_id, project_id, `${change} by ${fullname}`]
         );
+
+        const emails = await pool.query(
+            `SELECT email 
+            FROM Users U, Notified N 
+            WHERE N.project_id = $1 AND N.bug_id = $2 AND N.user_id = U.user_id AND U.user_id <> $3`,
+            [project_id, bug_id, user_id]
+        );
+
+        if (emails.rowCount > 0) {
+            const project = await pool.query(
+                `SELECT project_name 
+                FROM Project 
+                WHERE project_id = $1`,
+                [project_id]
+            );
+
+            sendNotifications(
+                emails.rows,
+                `${project.rows[0].project_name} Bug ID:${bug_id} Updated`,
+                `${change} by ${fullname}`
+            );
+        }
 
         res.send("Log Created");
     } catch (err) {
-        console.error(err.message);
+        console.error("log", err.message);
     }
 });
 
@@ -196,10 +267,13 @@ app.post("/api/invites", async (req, res) => {
         const user_id = user.rows[0].user_id;
 
         const dups = await pool.query(
-            `SELECT I.user_id 
-            FROM Invited I, Participant P 
-            WHERE (I.user_id = $1 AND I.project_id = $2) 
-                OR (P.user_id = $1 AND P.project_id = $2)`,
+            `(SELECT user_id 
+            FROM Invited 
+            WHERE user_id = $1 AND project_id = $2) 
+            UNION 
+            (SELECT user_id 
+            FROM Participant 
+            WHERE user_id = $1 AND project_id = $2)`,
             [user_id, project_id]
         );
 
@@ -221,7 +295,24 @@ app.post("/api/invites", async (req, res) => {
 // create assignment
 app.post("/api/assignments", async (req, res) => {
     try {
-        const { user_id, project_id, bug_id } = req.body;
+        const { email, project_id, bug_id } = req.body;
+        const DEVELOPER = 0;
+
+        const user = await pool.query( // developer participant_type is 0
+            `SELECT P.user_id 
+            FROM Users U, Participant P 
+            WHERE email = $1 AND U.user_id = P.user_id AND project_id = $2 
+                AND participant_type = ${DEVELOPER}`,
+            [email, project_id]
+        );
+
+        if (user.rowCount === 0) {
+            res.send("User not apart of project");
+            return;
+        }
+
+        const user_id = user.rows[0].user_id;
+
         await pool.query(
             `INSERT INTO Assigned(user_id, project_id, bug_id) VALUES 
             ($1, $2, $3)`,
@@ -238,12 +329,12 @@ app.post("/api/assignments", async (req, res) => {
 app.post("/api/notifications", async (req, res) => {
     try {
         const { user_id, project_id, bug_id } = req.body;
+
         await pool.query(
             `INSERT INTO Notified(user_id, project_id, bug_id) VALUES 
             ($1, $2, $3)`,
             [user_id, project_id, bug_id]
         );
-
         res.send("Notification Created");
     } catch (err) {
         console.log(err.message);
@@ -458,7 +549,8 @@ app.get("/api/projects/:project_id/bugs/:bug_id/logs", async (req, res) => {
         const logs = await pool.query(
             `SELECT change, logged 
             FROM Log 
-            WHERE project_id = $1 AND bug_id = $2`,
+            WHERE project_id = $1 AND bug_id = $2 
+            ORDER BY logged DESC`,
             [project_id, bug_id]
         );
 
@@ -468,8 +560,43 @@ app.get("/api/projects/:project_id/bugs/:bug_id/logs", async (req, res) => {
     }
 });
 
+// get all assignments for a specific bug
+app.get("/api/projects/:project_id/bugs/:bug_id/assignments", async (req, res) => {
+    try {
+        const { project_id, bug_id } = req.params;
+        const assignments = await pool.query(
+            `SELECT A.user_id, first_name || ' ' || last_name AS fullname, email 
+            FROM Assigned A, Users U 
+            WHERE project_id = $1 AND bug_id = $2 AND A.user_id = U.user_id 
+            ORDER BY fullname`,
+            [project_id, bug_id]
+        );
+
+        res.json(assignments.rows);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// get whether or not notifications for a specific bug is enabled
+app.get("/api/projects/:project_id/bugs/:bug_id/users/:user_id/notifications", async (req, res) => {
+    try {
+        const { project_id, bug_id, user_id } = req.params;
+        const notifications = await pool.query(
+            `SELECT user_id 
+            FROM Notified 
+            WHERE project_id = $1 AND bug_id = $2 AND user_id = $3`,
+            [project_id, bug_id, user_id]
+        );
+
+        res.json(notifications.rowCount === 1);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
 // update user first and last name
-app.patch("/api/users/:user_id/name", async (req, res) => {
+app.put("/api/users/:user_id/name", async (req, res) => {
     try {
         const { user_id } = req.params;
         const { first_name, last_name } = req.body;
@@ -489,7 +616,7 @@ app.patch("/api/users/:user_id/name", async (req, res) => {
 // update user profile picture <<<<<<<<<<<<<<<<<<<< NOT DONE
 
 // update user email
-app.patch("/api/users/:user_id/email", async (req, res) => {
+app.put("/api/users/:user_id/email", async (req, res) => {
     try {
         const { user_id } = req.params;
         const { email } = req.body;
@@ -519,7 +646,7 @@ app.patch("/api/users/:user_id/email", async (req, res) => {
 });
 
 // update bug
-app.patch("/api/projects/:project_id/bugs/:bug_id", async (req, res) => {
+app.put("/api/projects/:project_id/bugs/:bug_id", async (req, res) => {
     try {
         const { project_id, bug_id } = req.params;
         const { atr_key, atr_value } = req.body;
@@ -529,12 +656,65 @@ app.patch("/api/projects/:project_id/bugs/:bug_id", async (req, res) => {
             return;
         }
 
-        await pool.query(
-            `UPDATE Bug 
-            SET $1 = $2 
-            WHERE project_id = $3 AND bug_id = $4`,
-            [atr_key, atr_value, project_id, bug_id]
-        );
+        switch (atr_key) {
+            case "severity": {
+                await pool.query(
+                    `UPDATE Bug 
+                    SET severity = $1 
+                    WHERE project_id = $2 AND bug_id = $3`,
+                    [atr_value, project_id, bug_id]
+                );
+                break;
+            }
+            case "status": {
+                await pool.query(
+                    `UPDATE Bug 
+                    SET bug_status = $1 
+                    WHERE project_id = $2 AND bug_id = $3`,
+                    [atr_value, project_id, bug_id]
+                );
+                break;
+            }
+            case "error": {
+                await pool.query(
+                    `UPDATE Bug 
+                    SET error = $1 
+                    WHERE project_id = $2 AND bug_id = $3`,
+                    [atr_value, project_id, bug_id]
+                );
+                break;
+            }
+            case "reproduce": {
+                await pool.query(
+                    `UPDATE Bug 
+                    SET reproduce = $1 
+                    WHERE project_id = $2 AND bug_id = $3`,
+                    [atr_value, project_id, bug_id]
+                );
+                break;
+            }
+            case "workaround": {
+                await pool.query(
+                    `UPDATE Bug 
+                    SET workaround = $1 
+                    WHERE project_id = $2 AND bug_id = $3`,
+                    [atr_value, project_id, bug_id]
+                );
+                break;
+            }
+            case "solution": {
+                await pool.query(
+                    `UPDATE Bug 
+                    SET solution = $1 
+                    WHERE project_id = $2 AND bug_id = $3`,
+                    [atr_value, project_id, bug_id]
+                );
+                break;
+            }
+            default: {
+                console.error("INAVLID atr_key", atr_key);
+            };
+        }
 
         res.send(`Bug ${atr_key} Updated`);
     } catch (err) {
@@ -543,7 +723,7 @@ app.patch("/api/projects/:project_id/bugs/:bug_id", async (req, res) => {
 });
 
 // update project name
-app.patch("/api/projects/:project_id", async (req, res) => {
+app.put("/api/projects/:project_id", async (req, res) => {
     try {
         const { project_id } = req.params;
         const { project_name } = req.body;
@@ -579,7 +759,7 @@ app.delete("/api/projects/:project_id", async (req, res) => {
 });
 
 // delete bug
-app.delete("/api/projects/:project_id/bugs/bug_id", async (req, res) => {
+app.delete("/api/projects/:project_id/bugs/:bug_id", async (req, res) => {
     try {
         const { bug_id, project_id } = req.params;
 
@@ -630,9 +810,23 @@ app.delete("/api/projects/:project_id/invites/:user_id", async (req, res) => {
 });
 
 // delete assignment
-app.delete("/api/projects/:project_id/bugs/:bug_id/users/:user_id/assignments", async (req, res) => {
+app.delete("/api/projects/:project_id/bugs/:bug_id/users/:email/assignments", async (req, res) => {
     try {
-        const { project_id, bug_id, user_id } = req.params;
+        const { email, project_id, bug_id } = req.params;
+
+        const user = await pool.query( // developer participant_type is 0
+            `SELECT P.user_id 
+            FROM Users U, Participant P 
+            WHERE email = $1 AND U.user_id = P.user_id AND project_id = $2`,
+            [email, project_id]
+        );
+
+        if (user.rowCount === 0) {
+            res.send("User not apart of project");
+            return;
+        }
+
+        const user_id = user.rows[0].user_id;
 
         await pool.query(
             `DELETE FROM Assigned 

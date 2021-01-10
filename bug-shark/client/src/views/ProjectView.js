@@ -61,6 +61,7 @@ const ProjectView = ({ user_id }) => {
         <>
             {showInviteModal &&
                 <InviteParticipantModal
+                    project_id={project_id}
                     exitCallback={changeShowInviteModal}
                     participant_type={participant_type}
                 />
@@ -82,6 +83,7 @@ const ProjectView = ({ user_id }) => {
                                 <SettingsBtn project_id={project_id} user_id={user_id} />
                             }
                         </div>
+                        <h5 id="project-view-project-id">Project ID: {project_id}</h5>
                         <Link to={`/projects/${project_id}/participants`}>
                             <Button
                                 id="participants-btn"
@@ -144,6 +146,7 @@ const ProjectView = ({ user_id }) => {
                 </div>
                 <div id="project-view-bugs">
                     <BugList
+                        project_name={project_name}
                         project_id={project_id}
                         bugType={bugType}
                         filter={{ searchOption: searchOption, searchInput: searchInput }}
@@ -151,6 +154,7 @@ const ProjectView = ({ user_id }) => {
                         setNumTotalBugs={setNumTotalBugs}
                         setNumFilteredBugs={setNumFilteredBugs}
                         reloadBugList={reloadBugList}
+                        participant_type={participant_type}
                     />
                 </div>
             </div>
