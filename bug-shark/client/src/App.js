@@ -31,7 +31,7 @@ const App = () => {
         <Route exact path="/projects" render={() => <Projects user_id={user_id} />} />
         <Route exact path="/account" component={Account} />
         <Route exact path="/projects/:project_id" children={<ProjectView user_id={user_id} />} />
-        <Route exact path="/projects/:project_id/settings" children={<ProjectSettings user_id={user_id} />} />
+        <Route exact path="/projects/:project_id/settings" children={props => <ProjectSettings props={props} />} />
         <Route exact path="/projects/:project_id/bugs/:bug_id" children={props => <Bug props={props} user_id={user_id} />} />
         <Route exact path="/projects/:project_id/participants" children={<ProjectParticipants user_id={user_id} />} />
         <Route component={PageNotFound} />

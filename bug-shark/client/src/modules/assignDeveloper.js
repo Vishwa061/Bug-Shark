@@ -1,7 +1,7 @@
 const assignDeveloper = async (email, project_id, bug_id) => {
     try {
         const body = {
-            email: email.toLowerCase(),
+            email: email,
             project_id: project_id,
             bug_id: bug_id
         }

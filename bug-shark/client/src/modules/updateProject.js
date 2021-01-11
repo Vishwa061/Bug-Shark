@@ -1,20 +1,18 @@
-const inviteParticipant = async (email, project_id, invite_type) => {
+const updateProject = async (project_id, project_name) => {
     try {
         const body = {
-            email: email,
             project_id: project_id,
-            invite_type: invite_type
+            project_name: project_name
         }
 
-        await fetch(`http://localhost:5000/api/invites`, {
-            method: "POST",
+        await fetch(`http://localhost:5000/api/projects/${project_id}`, {
+            method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
         });
-
     } catch (err) {
         console.error(err.message);
     }
 }
 
-export default inviteParticipant;
+export default updateProject;

@@ -10,6 +10,7 @@ import "./styles/landing.css";
 import "./styles/projects.css";
 import "./styles/projectView.css";
 import "./styles/bug.css";
+import "./styles/projectSettings.css";
 
 ReactDOM.render(
     <Router>

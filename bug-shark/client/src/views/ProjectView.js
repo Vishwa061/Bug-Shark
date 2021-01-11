@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useProjectRequest } from "../components/hooks";
 import plus_icon from "../assets/icons/plus_icon.png";
@@ -9,12 +9,14 @@ import Search from "../components/Search";
 import BugList from "../components/BugList";
 import InviteParticipantModal from "../components/InviteParticipantModal";
 import ReportBugModal from "../components/ReportBugModal";
+import getParticipantType from "../modules/getParticipantType";
 
 const MANAGER = 1;
 
 const ProjectView = ({ user_id }) => {
     const { project_id } = useParams();
-    const { project_name, num_participants, participant_type } = useProjectRequest(project_id);
+    const { project_name, num_participants } = useProjectRequest(project_id);
+    const [participant_type, setParticipant_type] = useState(0);
 
     const [numTotalBugs, setNumTotalBugs] = useState(0);
     const [numFilteredBugs, setNumFilteredBugs] = useState(0);
@@ -57,6 +59,13 @@ const ProjectView = ({ user_id }) => {
         setReloadBugList(prevState => !prevState);
     }
 
+    useEffect(() => {
+        getParticipantType(project_id, user_id)
+            .then(participant_type => {
+                setParticipant_type(participant_type);
+            });
+    }, [project_id, user_id]);
+
     return (
         <>
             {showInviteModal &&
@@ -80,7 +89,11 @@ const ProjectView = ({ user_id }) => {
                         <div id="project-name-settings-wrapper">
                             <h1 id="project-view-name">{project_name}</h1>
                             {(participant_type >= MANAGER) &&
-                                <SettingsBtn project_id={project_id} user_id={user_id} />
+                                <SettingsBtn
+                                    project_id={project_id}
+                                    participant_type={participant_type}
+                                    project_name={project_name}
+                                />
                             }
                         </div>
                         <h5 id="project-view-project-id">Project ID: {project_id}</h5>

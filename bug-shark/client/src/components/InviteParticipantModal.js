@@ -68,8 +68,8 @@ const InviteParticipantModal = ({ project_id, exitCallback, participant_type }) 
                     <DropDown
                         text=""
                         id="invite-participant-modal-dropdown"
-                        defaultOption="Manager"
-                        options={["Manager", "Developer"]}
+                        defaultOption="Developer"
+                        options={["Developer", "Manager"]}
                         callback={type => setInviteType((type === "Manager") ? MANAGER : DEVELOPER)}
                     />
                 </div>

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import Modal from "./Modal";
-import removeDeveloper from "../modules/removeDeveloper";
+import deleteInvite from "../modules/deleteInvite";
 
-const RemoveDevsModal = ({ project_id, bug_id, submitBtnCallback, exitCallback }) => {
+const RemoveInvitesModal = ({ project_id, submitBtnCallback, exitCallback }) => {
     const [email, setEmail] = useState("");
 
-    const callRemoveDeveloper = () => {
-        removeDeveloper(email, project_id, bug_id)
+    const callDeleteInvite = () => {
+        deleteInvite(project_id, email)
             .then(() => {
                 submitBtnCallback();
                 exitCallback();
@@ -28,9 +28,9 @@ const RemoveDevsModal = ({ project_id, bug_id, submitBtnCallback, exitCallback }
 
     return (
         <Modal
-            title="Removing a Developer"
+            title="Removing an Invite"
             submitBtnText="Remove"
-            submitBtnCallback={callRemoveDeveloper}
+            submitBtnCallback={callDeleteInvite}
             exitCallback={exitCallback}
         >
             <div style={containerStyle}>
@@ -46,4 +46,4 @@ const RemoveDevsModal = ({ project_id, bug_id, submitBtnCallback, exitCallback }
     );
 }
 
-export default RemoveDevsModal;
+export default RemoveInvitesModal;

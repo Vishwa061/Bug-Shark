@@ -1,28 +1,26 @@
 import React, { useEffect, useState } from "react";
-import getDevelopers from "../modules/getDevelopers";
+import getInvites from "../modules/getInvites";
 import { Container, Row, Col } from "reactstrap";
 
-const DevList = ({ project_id, bug_id, reload, setNumDevs }) => {
-    const [devList, setDevList] = useState([]);
+const InviteList = ({ project_id, reload }) => {
+    const [inviteList, setInviteList] = useState([]);
 
     useEffect(() => {
-        getDevelopers(project_id, bug_id)
-            .then(devs => {
-                // console.log("Devs:", devs);
+        getInvites(project_id)
+            .then(invites => {
                 let i = 0;
-                setDevList(devs.map(dev => {
+                setInviteList(invites.map(invite => {
                     i++;
                     return (
                         <Row key={i} style={{ position: "relative", marginBottom: "0.5vw" }}>
-                            <Col id="dev-list-col-1" xs="auto">{dev.fullname}</Col>
-                            <Col id="dev-list-col-2" xs="auto">{dev.email}</Col>
+                            <Col id="dev-list-col-1" xs="auto">{invite.fullname}</Col>
+                            <Col id="dev-list-col-2" xs="auto">{invite.email}</Col>
                         </Row>
                     );
                 }));
-                setNumDevs(devs.length);
             });
 
-    }, [project_id, bug_id, reload, setNumDevs]);
+    }, [project_id, reload]);
 
     const titleColStyle1 = {
         position: "relative",
@@ -59,16 +57,16 @@ const DevList = ({ project_id, bug_id, reload, setNumDevs }) => {
     }
 
     return (
-        <div id="dev-list">
+        <div id="invite-list">
             <Container xs="auto" style={containerStyle}>
                 <Row style={titleRowStyle}>
                     <Col style={titleColStyle1} xs="auto">Name</Col>
                     <Col style={titleColStyle2} xs="auto">Email</Col>
                 </Row>
-                {devList}
+                {inviteList}
             </Container>
         </div>
     );
 }
 
-export default DevList;
+export default InviteList;

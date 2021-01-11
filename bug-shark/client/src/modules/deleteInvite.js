@@ -1,0 +1,12 @@
+const deleteInvite = async (project_id, email) => {
+    try {
+        await fetch(`http://localhost:5000/api/projects/${project_id}/invites/${email}`, {
+            method: "DELETE"
+        });
+
+    } catch (err) {
+        console.error(err.message);
+    }
+}
+
+export default deleteInvite;

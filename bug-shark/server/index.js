@@ -298,20 +298,30 @@ app.post("/api/assignments", async (req, res) => {
         const { email, project_id, bug_id } = req.body;
         const DEVELOPER = 0;
 
-        const user = await pool.query( // developer participant_type is 0
+        const user = await pool.query( // check if the user is a developer (also implies they are in the project)
             `SELECT P.user_id 
             FROM Users U, Participant P 
             WHERE email = $1 AND U.user_id = P.user_id AND project_id = $2 
                 AND participant_type = ${DEVELOPER}`,
             [email, project_id]
         );
-
         if (user.rowCount === 0) {
-            res.send("User not apart of project");
+            res.send("User not apart of project or isnt a developer");
             return;
         }
 
         const user_id = user.rows[0].user_id;
+
+        const dups = await pool.query(
+            `SELECT user_id 
+            FROM Assigned 
+            WHERE user_id = $1 AND project_id = $2 AND bug_id = $3`,
+            [user_id, project_id, bug_id]
+        );
+        if (dups.rowCount > 0) {
+            res.send("User already assigned")
+            return;
+        }
 
         await pool.query(
             `INSERT INTO Assigned(user_id, project_id, bug_id) VALUES 
@@ -430,12 +440,35 @@ app.get("/api/projects/:project_id/participants", async (req, res) => {
 
 });
 
+// get participant type for a specific participant
+app.get("/api/projects/:project_id/participants/:user_id", async (req, res) => {
+    try {
+        const { project_id, user_id } = req.params;
+        const participant = await pool.query(
+            `SELECT participant_type 
+            FROM Participant 
+            WHERE project_id = $1 AND user_id = $2`,
+            [project_id, user_id]
+        );
+
+        if (participant.rowCount === 0) {
+            res.send("User not apart of project");
+            return
+        }
+
+        res.json(participant.rows[0].participant_type);
+    } catch (err) {
+        console.error(err.message);
+    }
+
+});
+
 // get project
 app.get("/api/projects/:project_id", async (req, res) => {
     try {
         const { project_id } = req.params;
         const project = await pool.query(
-            `SELECT project_name, PA1.participant_type, 
+            `SELECT project_name, 
                 (SELECT COUNT(*) 
                 FROM Participant PA2 
                 WHERE PR.project_id = PA2.project_id) AS num_participants 
@@ -592,6 +625,24 @@ app.get("/api/projects/:project_id/bugs/:bug_id/users/:user_id/notifications", a
         res.json(notifications.rowCount === 1);
     } catch (err) {
         console.log(err.message);
+    }
+});
+
+// get all invites for a specific project
+app.get("/api/projects/:project_id/invites", async (req, res) => {
+    try {
+        const { project_id } = req.params;
+
+        const invites = await pool.query(
+            `SELECT first_name || ' ' || last_name AS fullname, email 
+            FROM Invited I, Users U 
+            WHERE project_id = $1 AND I.user_id = U.user_id`,
+            [project_id]
+        );
+
+        res.json(invites.rows);
+    } catch (err) {
+        console.error(err.message);
     }
 });
 
@@ -793,14 +844,14 @@ app.delete("/api/projects/:project_id/participants/:user_id", async (req, res) =
 });
 
 // delete invite
-app.delete("/api/projects/:project_id/invites/:user_id", async (req, res) => {
+app.delete("/api/projects/:project_id/invites/:email", async (req, res) => {
     try {
-        const { project_id, user_id } = req.params;
+        const { project_id, email } = req.params;
 
         await pool.query(
-            `DELETE FROM Invited 
-            WHERE project_id = $1 AND user_id = $2`,
-            [project_id, user_id]
+            `DELETE FROM Invited I USING Users U 
+            WHERE project_id = $1 AND I.user_id = U.user_id AND U.email = $2`,
+            [project_id, email]
         );
 
         res.send("Invite Deleted");
