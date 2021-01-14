@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import DropDown from "./DropDown";
 import Modal from "./Modal";
-import inviteParticipant from "../modules/inviteParticipant";
+import updateParticipantType from "../modules/updateParticipantType";
 
-const OWNER = 2;
 const MANAGER = 1;
 const DEVELOPER = 0;
 
-const InviteParticipantModal = ({ project_id, exitCallback, participant_type }) => {
+const EditParticipantModal = ({ project_id, user_id, submitBtnCallback, exitCallback }) => {
     const [email, setEmail] = useState("");
-    const [inviteType, setInviteType] = useState(DEVELOPER);
+    const [participant_type, setParticipant_type] = useState(DEVELOPER);
 
-    const callInviteParticipant = () => {
-        inviteParticipant(email, project_id, inviteType)
+    const callUpdateParticipantType = () => {
+        updateParticipantType(project_id, email, participant_type, user_id)
             .then(() => {
+                submitBtnCallback();
                 exitCallback();
             });
     }
@@ -46,9 +46,9 @@ const InviteParticipantModal = ({ project_id, exitCallback, participant_type }) 
 
     return (
         <Modal
-            title="Inviting a New Participant"
-            submitBtnText="Send Invite"
-            submitBtnCallback={callInviteParticipant}
+            title="Editing Participant Permissions"
+            submitBtnText="Save"
+            submitBtnCallback={callUpdateParticipantType}
             exitCallback={exitCallback}
         >
 
@@ -62,20 +62,19 @@ const InviteParticipantModal = ({ project_id, exitCallback, participant_type }) 
                     style={{ marginLeft: "1vw", bottom: "0.3vw" }}
                 />
             </div>
-            {(participant_type === OWNER) &&
-                <div style={containerStyle2}>
-                    <h2 style={promptStyle2}>Invite Type:</h2>
-                    <DropDown
-                        text=""
-                        id="invite-participant-modal-dropdown"
-                        defaultOption="Developer"
-                        options={["Developer", "Manager"]}
-                        callback={type => setInviteType((type === "Manager") ? MANAGER : DEVELOPER)}
-                    />
-                </div>
-            }
+            <div style={containerStyle2}>
+                <h2 style={promptStyle2}>New Permission Level:</h2>
+                <DropDown
+                    text=""
+                    id="invite-participant-modal-dropdown"
+                    defaultOption="Developer"
+                    options={["Developer", "Manager"]}
+                    callback={type => setParticipant_type((type === "Manager") ? MANAGER : DEVELOPER)}
+                />
+            </div>
+
         </Modal>
     );
 }
 
-export default InviteParticipantModal;
+export default EditParticipantModal;

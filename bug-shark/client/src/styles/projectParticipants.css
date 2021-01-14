@@ -1,0 +1,130 @@
+/* Project Participants */
+
+#participants {
+    position: relative;
+    margin-top: 3vw;
+    margin-left: 5vw;
+    margin-right: 8vw;
+    width: 87vw;
+}
+
+#participants-project-name {
+    position: relative;
+    display: inline-block;
+    background-color: #0D68A9;
+    color: white;
+    margin-left: 3vw;
+    padding: 1vw;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    font-size: 3vw;
+    width: 18vw;
+    text-align: center;
+}
+
+#partcipants-search {
+    position: relative;
+    float: right;
+    background-color: #083c61;
+    padding: 1vw;
+    border-radius: 1vw;
+    width: 20vw;
+    margin-top: 1vw;
+}
+
+#partcipants-search-input {
+    position: relative;
+    float: left;
+    background-color: #083c61;
+    border: none;
+    text-decoration: none;
+    color: white;
+    width: 14vw;
+    margin-left: 2vw;
+    font-size: 1.5vw;
+}
+
+#remove-participant-btn {
+    position: relative;
+    float: right;
+}
+
+#edit-permissions-btn {
+    position: relative;
+    float: right;
+    margin-right: 2vw;
+}
+
+#num-of-participants {
+    position: relative;
+    margin-top: 3.5vw;
+    font-size: 2vw;
+    color: rgba(0, 0, 0, 0.8);
+}
+
+/* Participant List */
+
+#participant-list {
+    position: relative;
+    margin-top: 2vw;
+    margin-left: 10vw;
+}
+
+#participant-item {
+    position: relative;
+    background-color: #0D68A9;
+    width: 18vw;
+    height: 18vw;
+    margin-bottom: 4vw;
+    margin-right: 6vw;
+    display: inline-block;
+    border-radius: 2vw;
+}
+
+#participant-item-top {
+    position: relative;
+    background-color: #083c61;
+    width: inherit;
+    height: 7vw;
+    border-top-left-radius: 2vw;
+    border-top-right-radius: 2vw;
+}
+
+#participant-picture {
+    position: relative;
+    width: 8vw;
+    height: 8vw;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+#participant-picture-wrapper {
+    position: absolute;
+    width: max-content;
+    z-index: 10;
+    margin-left: 5vw;
+    margin-top: 3vw;
+}
+
+#participant-item-bottom {
+    position: relative;
+    color: white;
+    text-align: center;
+    margin-top: 4vw;
+}
+
+#participant-item-bottom-name {
+    position: relative;
+    font-size: 2vw;
+    font-weight: 700;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#participant-item-bottom-type {
+    position: relative;
+    font-size: 1.8vw;
+}

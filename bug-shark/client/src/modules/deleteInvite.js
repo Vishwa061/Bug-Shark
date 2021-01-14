@@ -1,6 +1,6 @@
 const deleteInvite = async (project_id, email) => {
     try {
-        await fetch(`http://localhost:5000/api/projects/${project_id}/invites/${email}`, {
+        await fetch(`http://localhost:5000/api/projects/${project_id}/invites/${email.toLowerCase()}`, {
             method: "DELETE"
         });
 

@@ -1,7 +1,7 @@
 const inviteParticipant = async (email, project_id, invite_type) => {
     try {
         const body = {
-            email: email,
+            email: email.toLowerCase(),
             project_id: project_id,
             invite_type: invite_type
         }

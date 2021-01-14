@@ -427,8 +427,8 @@ app.get("/api/projects/:project_id/participants", async (req, res) => {
     try {
         const { project_id } = req.params;
         const participants = await pool.query(
-            `SELECT first_name || ' ' || last_name AS participant, participant_type
-            FROM Participant P, Users U
+            `SELECT first_name || ' ' || last_name AS fullname, participant_type, has_profile_picture, U.user_id 
+            FROM Participant P, Users U 
             WHERE project_id = $1 AND P.user_id = U.user_id`,
             [project_id]
         );
@@ -696,6 +696,27 @@ app.put("/api/users/:user_id/email", async (req, res) => {
     }
 });
 
+// update participant type
+app.put("/api/projects/:project_id/participants/:email", async (req, res) => {
+    try {
+        const { project_id, email } = req.params;
+        const { participant_type, owner_id } = req.body;
+
+        await pool.query(
+            `UPDATE Participant P 
+            SET participant_type = $1 
+            FROM Users U 
+            WHERE project_id = $2 AND P.user_id = U.user_id AND email = $3 
+                AND P.user_id <> $4`,
+            [participant_type, project_id, email, owner_id]
+        );
+
+        res.send("Participant Type Updated");
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
 // update bug
 app.put("/api/projects/:project_id/bugs/:bug_id", async (req, res) => {
     try {
@@ -827,14 +848,17 @@ app.delete("/api/projects/:project_id/bugs/:bug_id", async (req, res) => {
 });
 
 // delete participant
-app.delete("/api/projects/:project_id/participants/:user_id", async (req, res) => {
+app.delete("/api/projects/:project_id/participants/:email/who/:participant_type", async (req, res) => {
     try {
-        const { project_id, user_id } = req.params;
+        // participant type of the user who made the delete request
+        const { project_id, email, participant_type } = req.params;
+        const OWNER = 2;
 
         await pool.query(
-            `DELETE FROM Participant 
-            WHERE project_id = $1 AND user_id = $2`,
-            [project_id, user_id]
+            `DELETE FROM Participant P USING Users U 
+            WHERE project_id = $1 AND email = $2 AND P.user_id = U.user_id 
+                AND participant_type <> $3 AND participant_type <> ${OWNER}`,
+            [project_id, email, participant_type]
         );
 
         res.send("Participant Deleted");

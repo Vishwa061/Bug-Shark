@@ -11,6 +11,8 @@ import "./styles/projects.css";
 import "./styles/projectView.css";
 import "./styles/bug.css";
 import "./styles/projectSettings.css";
+import "./styles/projectParticipants.css";
+import "./styles/account.css";
 
 ReactDOM.render(
     <Router>

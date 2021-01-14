@@ -97,7 +97,13 @@ const ProjectView = ({ user_id }) => {
                             }
                         </div>
                         <h5 id="project-view-project-id">Project ID: {project_id}</h5>
-                        <Link to={`/projects/${project_id}/participants`}>
+                        <Link
+                            to={{
+                                pathname: `/projects/${project_id}/participants`,
+                                participant_type: participant_type,
+                                project_name: project_name
+                            }}
+                        >
                             <Button
                                 id="participants-btn"
                                 buttonText={`Participants (${num_participants})`}

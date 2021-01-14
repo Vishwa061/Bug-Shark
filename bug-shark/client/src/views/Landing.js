@@ -8,7 +8,7 @@ const Landing = () => {
     return (
         <div id="landing">
             <p id="landing-info">
-                A bug tracking system software developers can use to prioritize work and divide workloads
+                A bug tracking system that project owners, managers, and developers can use to prioritize work and divide workloads
                 </p>
             <h2 id="landing-img-info">Create/join a project</h2>
             <img src={create_project} alt="Create/join a project" id="landing-img" />
