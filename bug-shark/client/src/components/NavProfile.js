@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavProfileRequest } from "./hooks"
+import { useNavProfileRequest } from "./hooks";
 
 const NavProfile = (props) => {
     const { profile, profile_picture } = useNavProfileRequest(props.user_id);

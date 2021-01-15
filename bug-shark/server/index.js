@@ -4,8 +4,10 @@ const app = express();
 const cors = require("cors");
 const pool = require("./db");
 const path = require("path");
-
+const fileUpload = require("express-fileupload");
 const nodemailer = require("nodemailer");
+const fs = require("fs");
+
 const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -18,6 +20,7 @@ const transporter = nodemailer.createTransport({
 
 app.use(cors());
 app.use(express.json());
+app.use(fileUpload());
 
 //////////////////////////////// FUNCTIONS ////////////////////////////////
 
@@ -646,11 +649,38 @@ app.get("/api/projects/:project_id/invites", async (req, res) => {
     }
 });
 
+// get contributions for a specific user
+app.get("/api/users/:user_id/contributions", async (req, res) => {
+    try {
+        const { user_id } = req.params;
+
+        const contributions = await pool.query(
+            `SELECT project_name, 
+                (SELECT COUNT(*) 
+                FROM Bug B 
+                WHERE PR.project_id = B.project_id AND reporter_id = $1) AS num_bugs_reported 
+            FROM Participant PA, Project PR 
+            WHERE user_id = $1 AND PA.project_id = PR.project_id`,
+            [user_id]
+        );
+
+        res.json(contributions.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
 // update user first and last name
 app.put("/api/users/:user_id/name", async (req, res) => {
     try {
         const { user_id } = req.params;
         const { first_name, last_name } = req.body;
+
+        if (first_name.length > 25 || last_name.length > 25) {
+            res.send("Length too long");
+            return;
+        }
+
         await pool.query(
             `UPDATE Users 
                 SET first_name = $1, last_name = $2 
@@ -664,37 +694,90 @@ app.put("/api/users/:user_id/name", async (req, res) => {
     }
 });
 
-// update user profile picture <<<<<<<<<<<<<<<<<<<< NOT DONE
-
-// update user email
-app.put("/api/users/:user_id/email", async (req, res) => {
+// update user gender
+app.put("/api/users/:user_id/gender", async (req, res) => {
     try {
         const { user_id } = req.params;
-        const { email } = req.body;
+        const { gender } = req.body;
 
-        const usersWithSameEmail = await pool.query(
-            `SELECT user_id 
-            FROM Users 
-            WHERE email = $1`,
-            [email]
+        if (gender.length > 12) {
+            res.send("Length too long");
+            return;
+        }
+
+        await pool.query(
+            `UPDATE Users 
+                SET gender = $2 
+                WHERE user_id = $1`,
+            [user_id, gender]
         );
 
-        if (usersWithSameEmail.rowCount === 0) {
-            await pool.query(
-                `UPDATE Users 
-                SET email = $1 
-                WHERE user_id = $2`,
-                [email, user_id]
-            );
-
-            res.send("User Email Updated");
-        } else {
-            res.send("User Email Already Exists");
-        }
+        res.send("User Gender Updated");
     } catch (err) {
         console.error(err.message);
     }
 });
+
+// update user profile picture
+app.put("/api/users/:user_id/profile_picture", async (req, res) => {
+    try {
+        const { user_id } = req.params;
+        const ONE_MB = 1024 * 1024;
+
+        if (req.files === null) {
+            res.send("No file uploaded");
+            return;
+        }
+
+        const profile_picture = req.files.profile_picture;
+        if (profile_picture.size > ONE_MB) {
+            res.send("File too large");
+            return;
+        }
+        profile_picture.mv(path.join(__dirname, "profile_pictures", `${user_id}.png`));
+
+        await pool.query(
+            `UPDATE Users 
+                SET has_profile_picture = TRUE 
+                WHERE user_id = $1`,
+            [user_id]
+        );
+
+        res.send("User Profile Picture Updated");
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+// update user email
+// app.put("/api/users/:user_id/email", async (req, res) => {
+//     try {
+//         const { user_id } = req.params;
+//         const { email } = req.body;
+
+//         const usersWithSameEmail = await pool.query(
+//             `SELECT user_id 
+//             FROM Users 
+//             WHERE email = $1`,
+//             [email]
+//         );
+
+//         if (usersWithSameEmail.rowCount === 0) {
+//             await pool.query(
+//                 `UPDATE Users 
+//                 SET email = $1 
+//                 WHERE user_id = $2`,
+//                 [email, user_id]
+//             );
+
+//             res.send("User Email Updated");
+//         } else {
+//             res.send("User Email Already Exists");
+//         }
+//     } catch (err) {
+//         console.error(err.message);
+//     }
+// });
 
 // update participant type
 app.put("/api/projects/:project_id/participants/:email", async (req, res) => {
@@ -808,6 +891,39 @@ app.put("/api/projects/:project_id", async (req, res) => {
         );
 
         res.send("Project Name Updated");
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+// delete user profile picture
+app.delete("/api/users/:user_id/profile_picture", async (req, res) => {
+    try {
+        const { user_id } = req.params;
+
+        const user = await pool.query(
+            `SELECT has_profile_picture 
+            FROM Users 
+            WHERE user_id = $1`,
+            [user_id]
+        );
+
+        const has_profile_picture = user.rows[0].has_profile_picture;
+        if (!has_profile_picture) {
+            res.send("No profile picture to delete");
+            return;
+        }
+
+        fs.unlinkSync(path.join(__dirname, "profile_pictures", `${user_id}.png`));
+
+        await pool.query(
+            `UPDATE Users 
+                SET has_profile_picture = FALSE 
+                WHERE user_id = $1`,
+            [user_id]
+        );
+
+        res.send("User Profile Picture Deleted");
     } catch (err) {
         console.error(err.message);
     }
