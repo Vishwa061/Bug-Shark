@@ -4,15 +4,15 @@ import { parseBugStatus, parseReportedDate } from "./parseFunctions"
 const filterBySearchOption = (bug, { searchOption, searchInput }) => {
     switch (searchOption) {
         case "Bug ID":
-            return bug.bug_id + "" === searchInput;
+            return `${bug.bug_id}`.includes(searchInput);
         case "Severity":
-            return bug.severity.toUpperCase() === searchInput.toUpperCase();
+            return bug.severity.toUpperCase().includes(searchInput.toUpperCase());
         case "Status":
-            return parseBugStatus(bug.bug_status) === searchInput.toUpperCase();
+            return parseBugStatus(bug.bug_status).includes(searchInput.toUpperCase());
         case "Reported":
-            return parseReportedDate(bug.reported) === searchInput;
+            return parseReportedDate(bug.reported).includes(searchInput);
         case "Reporter":
-            return bug.reporter === searchInput;
+            return `${bug.reporter.toUpperCase()}`.includes(searchInput.toUpperCase());
         default: {
             console.error("INVALID BUG SEARCH OPTION:", searchOption);
             return true;

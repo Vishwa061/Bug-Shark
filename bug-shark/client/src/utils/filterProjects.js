@@ -1,5 +1,5 @@
 const projectNameFilter = (filterProjectName, project_name) => {
-    return filterProjectName === "" || filterProjectName.toUpperCase() === project_name.toUpperCase();
+    return filterProjectName === "" || project_name.toUpperCase().includes(filterProjectName.toUpperCase());
 }
 
 const filterProjects = (projects, filterProjectName) => {

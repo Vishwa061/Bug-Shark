@@ -1,5 +1,5 @@
 const projectNameFilter = (project_name, bug_project_name) => {
-    return project_name === "" || project_name.toUpperCase() === bug_project_name.toUpperCase();
+    return project_name === "" || bug_project_name.toUpperCase().includes(project_name.toUpperCase());
 }
 
 const severityFilter = ({ isLow, isMinor, isMajor, isCritical }, bugSeverity) => {
