@@ -2,7 +2,7 @@ const getViewStyle = (viewType) => {
     const isGalleryView = viewType === "gallery";
 
     const l1Style = isGalleryView ? null : {
-        width: "100%",
+        width: "110%",
         display: "inline-block",
         marginBottom: "2vw",
         marginRight: "0"
