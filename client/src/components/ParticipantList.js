@@ -38,7 +38,7 @@ const ParticipantList = ({ project_id, setTotalParticipants, setNumParticipants,
                         <img
                             id="participant-picture"
                             src={participant.has_profile_picture ?
-                                `${process.env.REACT_APP_API_ROOT}/users/${participant.user_id}/profile_picture` :
+                                `${process.env.REACT_APP_API_ROOT}/api/users/${participant.user_id}/profile_picture` :
                                 default_profile_picture
                             }
                             alt={default_profile_picture}
