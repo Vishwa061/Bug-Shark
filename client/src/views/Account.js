@@ -16,8 +16,7 @@ const Account = ({ user_id }) => {
     const [showEditGenderModal, setShowEditGenderModal] = useState(false);
 
     const handleDeleteProfilePicture = () => {
-        deleteProfilePicture(user_id);
-        window.location.reload();
+        deleteProfilePicture(user_id).then(() => window.location.reload());
     }
 
     return (
