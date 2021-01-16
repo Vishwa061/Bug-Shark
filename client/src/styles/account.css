@@ -122,6 +122,15 @@
 }
 
 /* Contribution List */
+#c-list {
+    position: relative;
+    height: 15vw;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: max-content;
+    height: 30vw;
+}
+
 #c-list-col-1 {
     position: relative;
     font-size: 2vw;

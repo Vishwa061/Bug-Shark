@@ -1,7 +1,7 @@
 const getNotification = async (project_id, bug_id, user_id) => {
     try {
         const fetchedNotification
-            = await fetch(`http://localhost:5000/api/projects/${project_id}/bugs/${bug_id}/users/${user_id}/notifications`);
+            = await fetch(`/api/projects/${project_id}/bugs/${bug_id}/users/${user_id}/notifications`);
         const notification = await fetchedNotification.json();
 
         return notification;

@@ -1,6 +1,6 @@
 const deleteProject = async (project_id) => {
     try {
-        await fetch(`http://localhost:5000/api/projects/${project_id}`, {
+        await fetch(`/api/projects/${project_id}`, {
             method: "DELETE"
         });
 

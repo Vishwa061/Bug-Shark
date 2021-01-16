@@ -1,4 +1,3 @@
-require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -7,6 +6,7 @@ const path = require("path");
 const fileUpload = require("express-fileupload");
 const nodemailer = require("nodemailer");
 const fs = require("fs");
+const PORT = process.env.PORT || 5000;
 
 const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -21,6 +21,11 @@ const transporter = nodemailer.createTransport({
 app.use(cors());
 app.use(express.json());
 app.use(fileUpload());
+
+if (process.env.NODE_ENV === "production") {
+    // server static content (build)
+    app.use(express.static(path.join(__dirname, "client/build")));
+}
 
 //////////////////////////////// FUNCTIONS ////////////////////////////////
 
@@ -1048,7 +1053,12 @@ app.delete("/api/projects/:project_id/bugs/:bug_id/users/:user_id/notifications"
     }
 });
 
+// catch all handler
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client/build/index.html"));
+});
+
 // listen to calls made from the client side
-app.listen(5000, () => {
-    console.log("The database connection has started on port 5000");
+app.listen(PORT, () => {
+    console.log(`The database connection has started on port ${PORT}`);
 });

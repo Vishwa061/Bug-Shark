@@ -6,7 +6,6 @@ import { Auth0Provider } from "@auth0/auth0-react";
 // https://auth0.com/blog/complete-guide-to-react-user-authentication/
 
 const Auth0ProviderWithHistory = ({ children }) => {
-    console.log(process.env)
     const domain = process.env.REACT_APP_AUTH0_DOMAIN;
     const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
     const history = useHistory();

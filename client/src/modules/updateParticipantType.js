@@ -5,7 +5,7 @@ const updateParticipantType = async (project_id, email, participant_type, owner_
             owner_id: owner_id
         }
 
-        await fetch(`http://localhost:5000/api/projects/${project_id}/participants/${email.toLowerCase()}`, {
+        await fetch(`/api/projects/${project_id}/participants/${email.toLowerCase()}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)

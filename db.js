@@ -1,13 +1,22 @@
-require("dotenv").config();
 const Pool = require("pg").Pool;
+require("dotenv").config();
 
-// info to connect database and server
-const pool = new Pool({
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    host: process.env.DATABASE_HOST,
-    port: process.env.DATABASE_PORT,
-    database: process.env.DATABASE_NAME
-});
+const devConfig = {
+    user: process.env.PG_USER,
+    password: process.env.PG_PASSWORD,
+    host: process.env.PG_HOST,
+    port: process.env.PG_PORT,
+    database: process.env.PG_NAME
+}
+
+const proConfig = {
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
+}
+
+// connect the database and server
+const pool = new Pool(process.env.NODE_ENV === "production" ? proConfig : devConfig);
 
 module.exports = pool;

@@ -5,7 +5,7 @@ const updateName = async (user_id, first_name, last_name) => {
             last_name: last_name
         }
 
-        await fetch(`http://localhost:5000/api/users/${user_id}/name`, {
+        await fetch(`/api/users/${user_id}/name`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)

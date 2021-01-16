@@ -20,7 +20,7 @@ const useAuthLogic = (user) => {
                 last_name: user.family_name || ""
             };
 
-            const fetchUser = await fetch(`${process.env.REACT_APP_API_ROOT}/api/users`, {
+            const fetchUser = await fetch(`/api/users`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)
@@ -48,7 +48,7 @@ const useNavProfileRequest = (user_id) => {
 
     const fetchProfile = async (user_id) => {
         try {
-            const fetchProfile = await fetch(`${process.env.REACT_APP_API_ROOT}/api/users/${user_id}`);
+            const fetchProfile = await fetch(`/api/users/${user_id}`);
             const profile = await fetchProfile.json();
             setProfile(profile);
         } catch (err) {
@@ -57,7 +57,7 @@ const useNavProfileRequest = (user_id) => {
     }
 
     const profile_picture = profile.has_profile_picture ?
-        `${process.env.REACT_APP_API_ROOT}/api/users/${user_id}/profile_picture` :
+        `/api/users/${user_id}/profile_picture` :
         default_profile_picture;
 
     return {
@@ -75,7 +75,7 @@ const useProjectRequest = (project_id) => {
 
     const getProject = async (project_id) => {
         try {
-            const fetchedProject = await fetch(`${process.env.REACT_APP_API_ROOT}/api/projects/${project_id}`);
+            const fetchedProject = await fetch(`/api/projects/${project_id}`);
             const project = await fetchedProject.json();
 
             setProject(project);

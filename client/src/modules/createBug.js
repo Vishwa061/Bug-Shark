@@ -11,7 +11,7 @@ const createBug = async (project_id, severity, error, user_id, reproduce) => {
             reproduce: reproduce
         }
 
-        const fetchedBugID = await fetch("http://localhost:5000/api/bugs", {
+        const fetchedBugID = await fetch("/api/bugs", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)

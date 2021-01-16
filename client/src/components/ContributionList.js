@@ -55,7 +55,7 @@ const ContributionList = ({ user_id }) => {
     }
 
     return (
-        <div id="dev-list">
+        <div id="c-list">
             <Container xs="auto" style={containerStyle}>
                 <Row style={titleRowStyle}>
                     <Col style={titleColStyle1} xs="auto">Project</Col>

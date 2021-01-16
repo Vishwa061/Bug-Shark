@@ -5,7 +5,7 @@ const createProject = async (user_id, project_name) => {
             project_name: project_name
         }
 
-        const fetchedProject = await fetch(`http://localhost:5000/api/projects`, {
+        const fetchedProject = await fetch(`/api/projects`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body1)
@@ -20,7 +20,7 @@ const createProject = async (user_id, project_name) => {
             participant_type: OWNER
         }
 
-        await fetch(`http://localhost:5000/api/participants`, {
+        await fetch(`/api/participants`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body2)

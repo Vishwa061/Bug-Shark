@@ -1,6 +1,6 @@
 const getBug = async (project_id, bug_id) => {
     try {
-        const fetchedBug = await fetch(`http://localhost:5000/api/projects/${project_id}/bugs/${bug_id}`);
+        const fetchedBug = await fetch(`/api/projects/${project_id}/bugs/${bug_id}`);
         const bug = await fetchedBug.json();
 
         return bug[0];

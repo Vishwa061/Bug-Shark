@@ -7,7 +7,7 @@ const createLog = async (user_id, project_id, bug_id, change) => {
             change: change
         }
 
-        await fetch("http://localhost:5000/api/logs", {
+        await fetch("/api/logs", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)

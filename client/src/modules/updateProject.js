@@ -5,7 +5,7 @@ const updateProject = async (project_id, project_name) => {
             project_name: project_name
         }
 
-        await fetch(`http://localhost:5000/api/projects/${project_id}`, {
+        await fetch(`/api/projects/${project_id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)

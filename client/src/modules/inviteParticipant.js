@@ -6,7 +6,7 @@ const inviteParticipant = async (email, project_id, invite_type) => {
             invite_type: invite_type
         }
 
-        await fetch(`http://localhost:5000/api/invites`, {
+        await fetch(`/api/invites`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)

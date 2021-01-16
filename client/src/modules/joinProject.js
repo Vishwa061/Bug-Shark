@@ -1,6 +1,6 @@
 const joinProject = async (user_id, project_id) => {
     try {
-        const fetchedInvite = await fetch(`http://localhost:5000/api/projects/${project_id}/users/${user_id}/invites`);
+        const fetchedInvite = await fetch(`/api/projects/${project_id}/users/${user_id}/invites`);
         const invite = await fetchedInvite.json();
 
         if (invite.length === 0) { // if invite was not found
@@ -13,7 +13,7 @@ const joinProject = async (user_id, project_id) => {
             participant_type: invite[0].invite_type
         }
 
-        await fetch(`http://localhost:5000/api/participants`, {
+        await fetch(`/api/participants`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
